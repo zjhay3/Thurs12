@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <link rel="stylesheet" href="photo-gallery.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Collapsible Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3>Gallery Categories</h3>
+                <button id="toggleSidebar"><i class="fas fa-bars"></i></button>
+            </div>
+            <div class="sidebar-content">
+                <ul class="sidebar-menu">
+                    <li class="active"><a href="#all">All Photos</a></li>
+                    <li><a href="#collaterals">Collaterals</a></li>
+                    <li><a href="#special">Special</a></li>
+                    <li><a href="#standard">Standard</a></li>
+                    <li><a href="#upgraded">Upgraded</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <header>
+                <div class="header-left">
+                    <button id="sidebarToggle" class="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Photo Gallery</h1>
+                </div>
+                <div class="header-right">
+                    <button id="backToMain" onclick="window.close()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Gallery Content -->
+            <div class="gallery-content">
+                <div class="gallery-wrapper">
+                    <div class="gallery-row row-1">
+                        <!-- Images will be populated dynamically -->
+                    </div>
+                    <div class="gallery-row row-2">
+                        <!-- Images will be populated dynamically -->
+                    </div>
+                    <div class="gallery-row row-3">
+                        <!-- Images will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-container">
+                    <div class="footer-left">
+                        <a href="tues4 - Copy.html">
+                            <img src="images/campaign-monitor-logo.png" alt="Campaign Monitor">
+                        </a>
+                    </div>
+                    <div class="footer-right">
+                        <div class="footer-section">
+                            <h3>Products</h3>
+                            <ul>
+                                <li><a href="#">Campaign Monitor</a></li>
+                                <li><a href="#">Pricing</a></li>
+                                <li><a href="#">App Store</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section">
+                            <h3>Community</h3>
+                            <ul>
+                                <li><a href="#">Customers</a></li>
+                                <li><a href="#">Resources</a></li>
+                                <li><a href="#">Blog</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="download-buttons">
+                    <a href="docs/company-profile.pdf" download class="download-btn">Download Company Profile</a>
+                    <a href="docs/pricelist.pdf" download class="download-btn">Download Pricelist</a>
+                </div>
+            
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/MSDGospeedExhibitsCorp"><img src="images/facebook.png" alt="Facebook"></a>
+                    <a href="https://www.instagram.com/msdgodspeed2022/"><img src="images/instagram.png" alt="Instagram"></a>
+                </div>
+            
+                <div class="footer-bottom">
+                    <p>&copy; 2025 MSD Godspeed. All Rights Reserved | <a href="#">Terms & Policies</a></p>
+                </div>
+            </footer>            
+        </div>
+    </div>
+    <a href="#contact" class="floating-btn">📞 Contact Us</a>
+    <script src="photo-gallery.js"></script>
+</body>
+</html>
