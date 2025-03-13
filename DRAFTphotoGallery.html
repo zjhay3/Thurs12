@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <style>
+        body {
+            background-color: #232531; /* Match Gallery Section Background */
+            color: white;
+            margin: 0;
+            display: flex;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #2C2F40;
+            padding: 20px;
+            position: fixed;
+            height: 100vh;
+            transition: width 0.3s;
+        }
+        .sidebar.collapsed {
+            width: 80px;
+        }
+        .sidebar ul {
+            list-style: none;
+            padding: 0;
+        }
+        .sidebar ul li {
+            padding: 15px;
+            cursor: pointer;
+        }
+        .sidebar ul li:hover {
+            background-color: #1D69E2;
+        }
+        .content {
+            margin-left: 260px;
+            padding: 20px;
+            flex-grow: 1;
+        }
+        .gallery img {
+            width: 200px;
+            height: auto;
+            margin: 10px;
+            cursor: pointer;
+        }
+        .footer {
+            background-color: #2C2F40;
+            padding: 15px;
+            text-align: center;
+            position: fixed;
+            bottom: 0;
+            width: 100%;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <ul>
+            <li>Collaterals</li>
+            <li>Special</li>
+            <li>Standard</li>
+            <li>Upgraded</li>
+        </ul>
+    </div>
+    <div class="content">
+        <h1>Photo Gallery</h1>
+        <div class="gallery">
+            <img src="image1.jpg" alt="Gallery Image">
+            <img src="image2.jpg" alt="Gallery Image">
+            <img src="image3.jpg" alt="Gallery Image">
+        </div>
+    </div>
+    <div class="footer">
+        <p>© Your Website Footer - Same as Main Page</p>
+    </div>
+</body>
+</html>
