@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Photo Gallery</title>
+    <link rel="stylesheet" href="photo-gallery.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Collapsible Sidebar -->
+        <div class="sidebar" id="sidebar">
+            <div class="sidebar-header">
+                <h3>Gallery Categories</h3>
+                <button id="toggleSidebar"><i class="fas fa-bars"></i></button>
+            </div>
+            <div class="sidebar-content">
+                <ul class="sidebar-menu">
+                    <li class="active"><a href="#all">All Photos</a></li>
+                    <li><a href="#collaterals">Collaterals</a></li>
+                    <li><a href="#special">Special</a></li>
+                    <li><a href="#standard">Standard</a></li>
+                    <li><a href="#upgraded">Upgraded</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Main Content Area -->
+        <div class="main-content">
+            <header>
+                <div class="header-left">
+                    <button id="sidebarToggle" class="sidebar-toggle">
+                        <i class="fas fa-bars"></i>
+                    </button>
+                    <h1>Photo Gallery</h1>
+                </div>
+                <div class="header-right">
+                    <button id="backToMain" onclick="window.close()">
+                        <i class="fas fa-times"></i>
+                    </button>
+                </div>
+            </header>
+
+            <!-- Gallery Content -->
+            <div class="gallery-content">
+                <div class="gallery-wrapper">
+                    <div class="gallery-row row-1">
+                        <!-- Images will be populated dynamically -->
+                    </div>
+                    <div class="gallery-row row-2">
+                        <!-- Images will be populated dynamically -->
+                    </div>
+                    <div class="gallery-row row-3">
+                        <!-- Images will be populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer -->
+            <footer>
+                <div class="footer-container">
+                    <div class="footer-left">
+                        <a href="tues4 - Copy.html">
+                            <img src="images/campaign-monitor-logo.png" alt="Campaign Monitor">
+                        </a>
+                    </div>
+                    <div class="footer-right">
+                        <div class="footer-section">
+                            <h3>Products</h3>
+                            <ul>
+                                <li><a href="#">Campaign Monitor</a></li>
+                                <li><a href="#">Pricing</a></li>
+                                <li><a href="#">App Store</a></li>
+                            </ul>
+                        </div>
+                        <div class="footer-section">
+                            <h3>Community</h3>
+                            <ul>
+                                <li><a href="#">Customers</a></li>
+                                <li><a href="#">Resources</a></li>
+                                <li><a href="#">Blog</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            
+                <div class="download-buttons">
+                    <a href="docs/company-profile.pdf" download class="download-btn">Download Company Profile</a>
+                    <a href="docs/pricelist.pdf" download class="download-btn">Download Pricelist</a>
+                </div>
+            
+                <div class="social-icons">
+                    <a href="https://www.facebook.com/MSDGospeedExhibitsCorp"><img src="images/facebook.png" alt="Facebook"></a>
+                    <a href="https://www.instagram.com/msdgodspeed2022/"><img src="images/instagram.png" alt="Instagram"></a>
+                </div>
+            
+                <div class="footer-bottom">
+                    <p>&copy; 2025 MSD Godspeed. All Rights Reserved | <a href="#">Terms & Policies</a></p>
+                </div>
+            </footer>            
+        </div>
+    </div>
+    <a href="#contact" class="floating-btn">📞 Contact Us</a>
+/* Base Styles */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: Arial, sans-serif;
+}
+
+body {
+    background-color: #011d02; /* Same as your gallery section */
+    color: white;
+    overflow-x: hidden;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+/* Sidebar Styles */
+.sidebar {
+    width: 250px;
+    background-color: #021601;
+    transition: all 0.3s ease;
+    height: 100vh;
+    position: fixed;
+    left: 0;
+    top: 0;
+    z-index: 100;
+}
+
+.sidebar.collapsed {
+    width: 60px;
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #033b04;
+}
+
+.sidebar.collapsed .sidebar-header h3 {
+    display: none;
+}
+
+.sidebar-toggle,
+#toggleSidebar {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+}
+
+.sidebar-content {
+    padding: 20px 0;
+}
+
+.sidebar.collapsed .sidebar-content {
+    display: flex;
+    justify-content: center;
+}
+
+.sidebar-menu {
+    list-style: none;
+}
+
+.sidebar-menu li {
+    margin-bottom: 10px;
+}
+
+.sidebar-menu li a {
+    display: block;
+    padding: 10px 20px;
+    color: white;
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.sidebar-menu li a:hover,
+.sidebar-menu li.active a {
+    background-color: #044e06;
+}
+
+.sidebar.collapsed .sidebar-menu li a {
+    padding: 15px 5px;
+    text-align: center;
+}
+
+.sidebar.collapsed .sidebar-menu li a span {
+    display: none;
+}
+
+/* Main Content Area */
+.main-content {
+    flex: 1;
+    margin-left: 250px;
+    transition: all 0.3s ease;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+.container.sidebar-collapsed .main-content {
+    margin-left: 60px;
+}
+
+/* Header Styles */
+header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    background-color: #022302;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+}
+
+.header-left {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.header-right button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+/* Gallery Content */
+.gallery-content {
+    flex: 1;
+    padding: 30px;
+    overflow-y: auto;
+}
+
+.gallery-wrapper {
+    overflow: hidden;
+    position: relative;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.gallery-row {
+    display: flex;
+    gap: 50px;
+    padding: 25px;
+    white-space: nowrap;
+    width: max-content;
+    will-change: transform;
+    transition: transform 0.1s linear;
+}
+
+.gallery-row img {
+    width: auto;
+    height: 300px;
+    object-fit: cover;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.gallery-row img:hover {
+    transform: scale(1.05);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.4);
+    z-index: 5;
+}
+
+/* Footer Styles */
+footer { 
+    color: white !important;
+    background-color: #005a05;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    padding: 20px 0;
+    z-index: 1000;
+}
+.footer-overlay {
+    border: 2px solid black;
+    display: block !important;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /*background: url('images/background-image.png') no-repeat center center;*/
+    background-size: 70%;
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: 0;
+}
+.footer-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+    width: 90%;
+    margin: 0 auto;
+}
+.footer-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.footer-right {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 15px;
+    text-align: center;
+}
+.footer-section {
+    text-align: left;
+    font-size: 14px;
+}
+.footer-left img {
+    width: 200px;
+    height: auto;
+}
+.footer-section h3 {
+    margin-bottom: 10px;
+    font-size: 12px;
+}
+.footer-section ul {
+    list-style: none;
+    padding: 0;
+}
+.footer-section ul li {
+    margin: 5px 0;
+}
+.footer-section ul li a {
+    color: white;
+    text-decoration: none;
+    font-size: 12px;
+}
+.download-buttons {
+    margin: 5px 0;
+    text-align: center;
+}
+.download-btn {
+    background: #f0a500;
+    color: white;
+    padding: 8px 12px;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    font-size: 10px;
+    text-decoration: none;
+    display: inline-block;
+    margin: 5px;
+}
+.download-btn:hover {
+    background: #d48f00;
+}
+.social-icons {
+    margin: 10px 0;
+    text-align: center;
+}
+.social-icons img {
+    width: 20px;
+    margin: 0 5px;
+}
+.footer-bottom {
+    margin-top: 5px;
+    font-size: 10px;
+    text-align: center;
+}
+
+@media (max-width: 768px) {
+    .footer-container {
+        grid-template-columns: 1fr;
+        text-align: center;
+    }
+    .footer-right {
+        grid-template-columns: 1fr;
+    }
+    .footer-left img {
+        width: 150px;
+    }
+}
+/* Media Queries for Responsiveness */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 60px;
+    }
+    
+    .sidebar-header h3 {
+        display: none;
+    }
+    
+    .sidebar-menu li a span {
+        display: none;
+    }
+    
+    .main-content {
+        margin-left: 60px;
+    }
+    
+    .footer-section {
+        min-width: 100%;
+        margin-bottom: 30px;
+    }
+}
+
+@media (max-width: 480px) {
+    .gallery-row img {
+        height: 200px;
+    }
+}
+    <script src="photo-gallery.js"></script>
+document.addEventListener("DOMContentLoaded", function () {
+    // Toggle sidebar functionality
+    const container = document.querySelector('.container');
+    const sidebar = document.getElementById('sidebar');
+    const sidebarToggle = document.getElementById('sidebarToggle');
+    const toggleSidebar = document.getElementById('toggleSidebar');
+
+    function toggleSidebarState() {
+        sidebar.classList.toggle('collapsed');
+        container.classList.toggle('sidebar-collapsed');
+    }
+
+    sidebarToggle.addEventListener('click', toggleSidebarState);
+    toggleSidebar.addEventListener('click', toggleSidebarState);
+
+    // Set active menu item
+    const menuItems = document.querySelectorAll('.sidebar-menu li a');
+    menuItems.forEach(item => {
+        item.addEventListener('click', function(e) {
+            e.preventDefault();
+            document.querySelectorAll('.sidebar-menu li').forEach(li => {
+                li.classList.remove('active');
+            });
+            this.parentElement.classList.add('active');
+            
+            // Filter gallery based on category (to be implemented)
+            const category = this.getAttribute('href').substring(1);
+            filterGallery(category);
+        });
+    });
+
+    // Filter gallery function (placeholder)
+    function filterGallery(category) {
+        console.log('Filtering gallery by:', category);
+        // Implementation for filtering would go here
+    }
+
+    // List of available images
+    const allImages = [
+        "gallery1.jpg", "gallery2.jpg", "gallery3.jpg", "gallery4.jpg",
+        "gallery5.jpg", "gallery6.jpg", "gallery7.jpg", "gallery8.jpg",
+        "gallery9.jpg", "gallery10.jpg", "gallery11.jpg", "gallery12.jpg",
+        "gallery13.jpg", "gallery14.jpg", "gallery15.jpg",
+        "gallery16.jpg", "gallery17.jpg", "gallery18.jpg", "gallery19.jpg",
+        "gallery20.jpg", "gallery21.jpg", "gallery22.jpg", "gallery23.jpg",
+        "gallery24.jpg", "gallery25.jpg", "gallery26.jpg", "gallery27.jpg",
+        "gallery28.jpg", "gallery29.jpg", "gallery30.jpg"
+    ];
+
+    // Sample category distribution (you would replace this with your actual categorization)
+    const imageCategories = {
+        "collaterals": ["gallery1.jpg", "gallery5.jpg", "gallery9.jpg", "gallery13.jpg", "gallery17.jpg", "gallery21.jpg", "gallery25.jpg", "gallery29.jpg"],
+        "special": ["gallery2.jpg", "gallery6.jpg", "gallery10.jpg", "gallery14.jpg", "gallery18.jpg", "gallery22.jpg", "gallery26.jpg", "gallery30.jpg"],
+        "standard": ["gallery3.jpg", "gallery7.jpg", "gallery11.jpg", "gallery15.jpg", "gallery19.jpg", "gallery23.jpg", "gallery27.jpg"],
+        "upgraded": ["gallery4.jpg", "gallery8.jpg", "gallery12.jpg", "gallery16.jpg", "gallery20.jpg", "gallery24.jpg", "gallery28.jpg"]
+    };
+
+    // Setup the gallery rows
+    const galleryRows = document.querySelectorAll(".gallery-row");
+
+    // Setup each row
+    galleryRows.forEach((row, index) => {
+        // Store original styles
+        const computedStyle = window.getComputedStyle(row);
+        const originalGap = computedStyle.columnGap || '50px';
+        
+        // Select random images
+        let shuffled = [...allImages].sort(() => 0.5 - Math.random());
+        let selectedImages = shuffled.slice(0, 6);
+        
+        // Create image elements HTML
+        let baseImagesHTML = '';
+        selectedImages.forEach(img => {
+            baseImagesHTML += `<img src="images/${img}" alt="Gallery Image" data-fullsize="images/${img}">`;
+        });
+        
+        // Duplicate the images enough times to fill the screen width multiple times
+        row.innerHTML = baseImagesHTML.repeat(10);
+        
+        // Wait for images to load to get accurate measurements
+        setTimeout(() => {
+            const imageElements = row.querySelectorAll('img');
+            
+            // Preserve the original gap between images
+            const gapSize = parseInt(originalGap) || 50;
+            row.style.columnGap = `${gapSize}px`;
+            
+            // Calculate the width of a single set (all unique images + gaps)
+            let singleSetWidth = 0;
+            for (let i = 0; i < selectedImages.length; i++) {
+                singleSetWidth += imageElements[i].offsetWidth;
+                // Add gap after each image except the last one
+                if (i < selectedImages.length - 1) {
+                    singleSetWidth += gapSize;
+                }
+            }
+            
+            // Direction alternates by row index
+            const goingRight = index % 2 === 0;
+            
+            // Set initial position
+            let currentPosition = goingRight ? 0 : -singleSetWidth;
+            row.style.transform = `translateX(${currentPosition}px)`;
+            
+            // Speed varies by row (pixels per frame)
+            const speed = goingRight ? 0.9 : -0.9;
+            
+            // Store pause state
+            let isPaused = false;
+            let lastFrameTime = 0;
+            
+            // Animation function for seamless scrolling
+            function animateRow(timestamp) {
+                // Throttle to reasonable frame rate for smoother animation
+                if (timestamp - lastFrameTime < 16) { // ~60fps
+                    requestAnimationFrame(animateRow);
+                    return;
+                }
+                
+                lastFrameTime = timestamp;
+                
+                if (!isPaused) {
+                    // Move the row
+                    currentPosition += speed;
+                    
+                    // Check if we need to reset (invisibly)
+                    if (goingRight) { // Moving right
+                        // Apply the movement with CSS transform
+                        row.style.transform = `translateX(${currentPosition}px)`;
+                        
+                        if (currentPosition >= 0) {
+                            // When position reaches start, jump back one set width with transition disabled
+                            row.style.transition = 'none';
+                            currentPosition = -singleSetWidth;
+                            row.style.transform = `translateX(${currentPosition}px)`;
+                            // Force reflow to apply the transform immediately
+                            row.offsetHeight;
+                            // Re-enable transition
+                            row.style.transition = 'transform 20ms linear';
+                        }
+                    } else { // Moving left
+                        // Apply the movement
+                        row.style.transform = `translateX(${currentPosition}px)`;
+                        
+                        if (currentPosition <= -2 * singleSetWidth) {
+                            // When position reaches end, jump forward one set width with transition disabled
+                            row.style.transition = 'none';
+                            currentPosition = -singleSetWidth;
+                            row.style.transform = `translateX(${currentPosition}px)`;
+                            // Force reflow
+                            row.offsetHeight;
+                            // Re-enable transition
+                            row.style.transition = 'transform 20ms linear';
+                        }
+                    }
+                }
+                
+                // Continue animation
+                requestAnimationFrame(animateRow);
+            }
+            
+            // Initialize smooth transitions
+            row.style.transition = 'transform 20ms linear';
+            
+            // Start animation
+            requestAnimationFrame(animateRow);
+            
+            // Set up hover effect for individual images
+            imageElements.forEach(img => {
+                img.addEventListener("mouseenter", () => {
+                    isPaused = true;
+                    // Add hover effect styling if needed
+                    img.style.transform = "scale(1.05)";
+                    img.style.transition = "transform 0.3s ease";
+                    img.style.zIndex = "5";
+                });
+                
+                img.addEventListener("mouseleave", () => {
+                    isPaused = false;
+                    // Remove hover effect styling
+                    img.style.transform = "scale(1)";
+                    img.style.zIndex = "1";
+                });
+                
+                // Add click event for viewing full-size image
+                img.addEventListener("click", () => {
+                    openLightbox(img.getAttribute('data-fullsize'));
+                });
+            });
+            
+            // Also keep the original row hover behavior
+            row.addEventListener("mouseenter", () => {
+                isPaused = true;
+            });
+            
+            row.addEventListener("mouseleave", () => {
+                isPaused = false;
+                // Reset any scale effects when leaving the row
+                imageElements.forEach(img => {
+                    img.style.transform = "scale(1)";
+                    img.style.zIndex = "1";
+                });
+            });
+        }, 300); // Delay to ensure images have time to load properly
+    });
+
+    // Lightbox functionality
+    function openLightbox(imageSrc) {
+        // Create lightbox elements
+        const lightbox = document.createElement('div');
+        lightbox.classList.add('lightbox');
+        
+        const lightboxContent = document.createElement('div');
+        lightboxContent.classList.add('lightbox-content');
+        
+        const closeButton = document.createElement('span');
+        closeButton.classList.add('close-lightbox');
+        closeButton.innerHTML = '&times;';
+        
+        const image = document.createElement('img');
+        image.src = imageSrc;
+        
+        // Assemble and add to document
+        lightboxContent.appendChild(closeButton);
+        lightboxContent.appendChild(image);
+        lightbox.appendChild(lightboxContent);
+        document.body.appendChild(lightbox);
+        
+        // Add event listeners
+        closeButton.addEventListener('click', () => {
+            document.body.removeChild(lightbox);
+        });
+        
+        lightbox.addEventListener('click', (e) => {
+            if (e.target === lightbox) {
+                document.body.removeChild(lightbox);
+            }
+        });
+        
+        // Add lightbox styles dynamically
+        const style = document.createElement('style');
+        style.textContent = `
+            .lightbox {
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background-color: rgba(0, 0, 0, 0.9);
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                z-index: 1000;
+            }
+            
+            .lightbox-content {
+                position: relative;
+                max-width: 90%;
+                max-height: 90%;
+            }
+            
+            .lightbox-content img {
+                max-width: 100%;
+                max-height: 90vh;
+                object-fit: contain;
+            }
+            
+            .close-lightbox {
+                position: absolute;
+                top: -40px;
+                right: 0;
+                color: white;
+                font-size: 40px;
+                font-weight: bold;
+                cursor: pointer;
+            }
+        `;
+        document.head.appendChild(style);
+    }
+
+    // Function to update gallery based on selected category
+    function filterGallery(category) {
+        // If 'all' is selected, show random images
+        if (category === 'all') {
+            setupRandomGallery();
+            return;
+        }
+        
+        // Otherwise filter by category
+        const filteredImages = imageCategories[category] || [];
+        
+        if (filteredImages.length > 0) {
+            galleryRows.forEach((row, index) => {
+                // Clear existing content
+                row.innerHTML = '';
+                
+                // Create filtered images HTML
+                let imagesHTML = '';
+                
+                // Use modulo to distribute images evenly among rows
+                const rowImages = filteredImages.filter((_, i) => i % galleryRows.length === index);
+                
+                rowImages.forEach(img => {
+                    imagesHTML += `<img src="images/${img}" alt="Gallery Image" data-fullsize="images/${img}">`;
+                });
+                
+                // Duplicate images to fill the row
+                row.innerHTML = imagesHTML.repeat(Math.ceil(10 / rowImages.length));
+                
+                // Reset animation and hover effects (simplified - you'd need to reinitialize properly)
+                const imageElements = row.querySelectorAll('img');
+                imageElements.forEach(img => {
+                    img.addEventListener("click", () => {
+                        openLightbox(img.getAttribute('data-fullsize'));
+                    });
+                });
+            });
+        }
+    }
+
+
+    // Setup random gallery initially
+    function setupRandomGallery() {
+        galleryRows.forEach((row, index) => {
+            // Clear existing content
+            row.innerHTML = '';
+            
+            // Select random images
+            let shuffled = [...allImages].sort(() => 0.5 - Math.random());
+            let selectedImages = shuffled.slice(0, 6);
+            
+            // Create image elements HTML
+            let baseImagesHTML = '';
+            selectedImages.forEach(img => {
+                baseImagesHTML += `<img src="images/${img}" alt="Gallery Image" data-fullsize="images/${img}">`;
+            });
+            
+            // Duplicate the images enough times to fill the screen width multiple times
+            row.innerHTML = baseImagesHTML.repeat(10);
+        });
+    }
+});
+
+</body>
+</html>
