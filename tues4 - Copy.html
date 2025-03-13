@@ -1,0 +1,2564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>MSD Godspeed Exhibits Corp</title>
+	<style>
+
+
+		@font-face{
+			font-family: 'Swiss721BlkCnBT';
+			src: url('fonts/Swiss721BlkCnBT.woff2') format('woff2'),
+				 url('fonts/Swiss721BlkCnBT.woff') format('woff');
+			font-weight: normal;
+			font-style: normal;
+		}
+		@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
+		* {
+			margin: 0;
+			padding: 0;
+			box-sizing: border-box;
+			scroll-behavior: smooth;
+		}
+		html {
+			overflow-x: hidden; /* Prevents horizontal scrolling */
+			width: 100%; /* Ensures it stays within the viewport */
+		}
+
+		/* =============================================
+   		1. Background Image Overlapping Two Sections
+   		============================================= */
+		/* .background-wrapper {
+			/*background: red !important;  Debugging color */
+    		/*position: fixed;
+    		top: 0;
+    		left: 0;
+    		width: 100%;
+    		height: 150vh;  Extends over two sections 
+    		background: url('images/your-image.png') center/cover no-repeat;
+    		z-index: -1;
+		}*/
+		/*.background-wrapper::before {
+    		content: "";
+    		position: absolute;
+    		top: 0;
+    		left: 0;
+    		width: 100%;
+    		height: 150vh;
+    		background: url('images/your-image.png') center/cover no-repeat;
+    		opacity: 0.5; /* Adjust for visibility 
+    		z-index: -1;
+		} */
+
+		/*.section {
+    		position: relative;
+    		z-index: 1;
+    		padding: 100px;
+    		color: white;
+		}*/
+
+		/* =============================================
+   		2. Smooth Scroll & Parallax Effect
+   		============================================= */
+		/* ✅ Parallax Effect */
+		.parallax {
+			position: relative;
+			overflow: hidden;
+			width: 100%; /* Use 100% instead of 100vw to avoid potential scrollbar issues */
+			margin: 0;
+			padding: 0;
+		}
+
+		/* Background with blur */
+		.parallax-bg {
+			position: absolute;
+			top: -400px; /* Negative value to extend beyond top */
+			left: -20px; /* Negative value to extend beyond left */
+			width: calc(100% + 40px); /* Extend beyond right edge */
+			height: calc(150% + 650px); /* Extend beyond bottom edge */
+			background: url("images/parallax-image.jpg") center center no-repeat;
+			background-size: cover; /* This is enough, remove the duplicate background-size in the url */
+			filter: blur(1px);
+			z-index: 0;
+			will-change: transform;
+			transform: translateY(0);
+			opacity: 1 !important;
+			display: block !important;
+		}
+		.parallax-content {
+			position: relative;
+			z-index: 2; /* ✅ Higher value to bring "Our Products" in front */
+			text-align: center;
+			padding-top: 100px; /* Moves "Our Products" down */
+		}
+
+		.parallax-bg::after {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.5); /* Darker overlay */
+			z-index: 0;
+		}
+
+		/* Content container */
+		.content {
+			position: relative;
+			z-index: 1;
+			background-color: rgba(0, 45, 2, 0.8);
+			padding: 40px;
+			border-radius: 8px;
+			width: 100%;
+			max-width: 1200px;
+			margin: 0 auto;
+			box-sizing: border-box;
+		}
+
+		@media (max-width: 768px) {
+			.parallax-bg {
+				/* Disable parallax on mobile */
+				transform: none !important;
+			}
+		}
+
+		/* =============================================
+   		3. Fade-in Scroll Animations
+   		============================================= */
+   		.fade-in {
+    		opacity: 0;
+    		transform: translateY(30px);
+    		transition: opacity 1s ease-out, transform 1s ease-out;
+		}
+
+		.fade-in.show {
+    		opacity: 1;
+    		transform: translateY(0);
+		}
+
+		/* =============================================
+   		4. Section Gradient Transitions
+   		============================================= */
+		.section-transition {
+    		background: linear-gradient(to bottom, rgba(255, 255, 255, 0), rgba(0, 0, 0, 0.8));
+    		height: 50px;
+		}
+
+		/* =============================================
+   		5. Hover Effects on Interactive Elements
+   		============================================= */
+		.button:hover {
+    		transform: scale(1.1);
+    		transition: transform 0.3s ease-in-out;
+		}
+
+		.image:hover {
+    		filter: brightness(1.2);
+    		transition: filter 0.3s ease-in-out;
+		}
+
+
+		body {
+			font-family: Georgia, serif;
+			font-weight: bold;
+			line-height: 1.6;
+			
+		}
+		#home {
+			height: 100vh;
+			width: 100%;
+			overflow: hidden;
+			position: relative;
+			background-image: url("images/backgroundHome.jpg");
+		}
+		@keyframes typing {
+			from { width: 0; }
+			to { width: 100% }
+		}
+		.hero-text {
+			position: absolute;
+			top: 0; /* Pushes the text to the top of the section */
+			left: 50%;
+			transform: translateX(-50%);
+			text-align: center;
+			font-size: 50px;
+			color: white;
+			overflow: hidden;
+			white-space: nowrap;
+			display: inline-block;
+			width: 0;
+			animation: typing 4s steps(40, end) forwards;
+		}
+
+		.carousel-container {
+			display: flex;
+			align-items: center; /* Vertically centers the carousel */
+			justify-content: center; /* Horizontally centers the carousel */
+			height: 120%; /* Full viewport height */
+			overflow: hidden;
+		}
+
+		.carousel-slide {
+			display: flex;
+			transition: transform 0.8s ease-in-out;
+			width: 100%; /* Ensure the container only holds one image at a time */
+			align-items: center; /* Centers vertically */
+		}
+
+		.carousel-slide img {
+			width: 100vw; /* Ensure each image takes full screen width */
+			height: 100vh; /* Make it full height */
+			object-fit: contain; /* Ensure it covers the container */
+			flex-shrink: 0;
+			transform: translateX(-1.5%); /* Moves image slightly to the left */
+			box-shadow: 0px 20px 60px rgba(0, 0, 0, 0.5); /* ✅ Keeps shadow tight around the image */
+		}
+		/* ✅ Responsive Adjustments */
+		@media (max-width: 1024px) { 
+			.carousel-slide img {
+				max-width: 100vw;
+				max-height: 100vh;
+			}
+		}
+
+		@media (max-width: 768px) { 
+			.carousel-slide img {
+				max-width: 100vw;
+				max-height: 100vh;
+			}
+		}
+		
+		.carousel-buttons {
+			position: absolute;
+			top: 50%;
+			width: 100%;
+			display: flex;
+			justify-content: space-between;
+			transform: translateY(-50%);
+			padding: 0 20px;
+		}
+		.carousel-buttons button {
+			background-color: rgba(0, 0, 0, 0.5);
+			border: none;
+			color: white;
+			padding: 10px;
+			cursor: pointer;
+			border-radius: 50%;
+			transition: background-color 0.3s;
+		}
+		.carousel-buttons button:hover {
+			background-color: rgba(0, 0, 0, 0.8);
+		}
+		.carousel-dots {
+			position: absolute;
+			bottom: 40px;
+			left: 50%;
+			transform: translateX(-50%);
+			display: flex;
+			gap: 10px;
+		}
+		.dot {
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background-color: rgba(255, 255, 255, 0.5);
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		.dot.active {
+			background-color: rgba(255, 255, 255, 1);
+		}
+		.carousel-dots .dot {
+			width: 12px;
+			height: 12px;
+			border-radius: 50%;
+			background-color: rgba(255, 255, 255, 0.5);
+			cursor: pointer;
+			transition: background-color 0.3s;
+		}
+		.carousel-dots .dot.active {
+			background-color: rgba(255, 255, 255, 1);
+		}
+		#about {
+			color: white;
+			background-color: #002d02;
+			padding: 100px 20px;
+			min-height: 100vh;
+			text-align: center;
+		}
+		.image-grid {
+			display: grid;
+			grid-template-columns: 1fr 1fr 1fr;
+			grid-template-rows: 200px 250px 250px;
+			gap: 20px;
+			margin-top: 40px;
+			grid-template-areas:
+				"img1 img2 img3"
+				"img4 img2 img5"
+				"img4 img6 img5";
+		}
+		.image-container:nth-child(1) { grid-area: img1; }
+		.image-container:nth-child(2) { grid-area: img2; }
+		.image-container:nth-child(3) { grid-area: img3; }
+		.image-container:nth-child(4) { grid-area: img4; }
+		.image-container:nth-child(5) { grid-area: img5; }
+		.image-container:nth-child(6) { grid-area: img6; }
+
+		.image-container {
+			position: relative;
+			overflow: hidden;
+			border-radius: 15px;
+			box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+			cursor: pointer;
+			transition: transform 0.3s ease;
+		}
+		.image-container:hover {
+			transform: scale(1.05);
+			box-shadow: none !important;
+		}
+		.image-container img {
+			width: 100%;
+			height: 100%;
+			object-fit: cover;
+			opacity: 0.9;
+			transition: opacity 0.3s ease;
+		}
+		.image-container:hover img {
+			opacity: 1.5;
+		}
+		.image-container::before {
+			content: "";
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(145deg, rgba(0, 45, 2, 0.8), rgba(0, 100, 0, 0.6));
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
+		.image-container:hover::before {
+			opacity: 1;
+		}
+		.image-container .overlay-text {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: white;
+			font-size: 24px;
+			opacity: 0;
+			transition: opacity 0.3s ease;
+			text-align: center;
+			pointer-events: auto;
+		}
+		.image-container:hover .overlay-text {
+			opacity: 1;
+		}
+
+
+		header{
+			background: rgba(226, 226, 226, 0.8);
+			background-color: rgba(226, 226, 226, 0.6); /* Transparent background */
+			backdrop-filter: blur(100px);
+			transition: background-color 0.3s ease;
+			color: black;
+			padding: 10px 0;
+			position: sticky;
+			top: 0;
+			z-index: 1000;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+		}
+		.logo a img {
+			width: 350px;
+			height: 50px;
+			object-fit: contain;
+			cursor: pointer;
+			transition: transform 0.3s ease-in-out;
+		}
+		.logo a img:active {
+			transform: scale(0.95);
+		}
+		/* Default styles for navigation */
+		.nav {
+			display: flex;
+			align-items: center;
+		}
+		.nav-menu {
+			list-style: none;
+			display: flex;
+			gap: 0;
+		}
+		.nav-menu li a {
+			text-decoration: none;
+			color: black;
+			font-size: 18px;
+			padding: 10px;
+			display: inline-block;
+		}
+		/* Hamburger Menu ( Hidden by default ) */
+		.hamburger {
+			display: none;
+			cursor: pointer;
+			flex-direction: column;
+			gap: 5px;
+		}
+		.bar {
+			width: 30px;
+			height: 4px;
+			background: black;
+			transition: 0.3s;
+		}
+		/* Responsive Adjustments */
+		@media (max-width: 768px ) {
+			.hamburger {
+				display: flex;
+			}
+			.nav-menu {
+				display: none;
+				flex-direction: column;
+				position: absolute;
+				top: 60px;
+				left: 0;
+				width: 100%;
+				background: white;
+				box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+				text-align: center;
+				padding: 20px 0;
+			}
+			.nav-menu.active {
+				display: flex;
+			}
+		}
+		/* Responsive Grid Adjustments */
+		@media (max-width: 768px) {
+			.image-grid, .services-grid {
+				display: flex;
+				flex-direction: column;
+				gap: 20px;
+			}
+		}
+
+		nav ul{
+			list-style: none;
+			display: flex;
+			gap: 1px;
+		}
+		nav ul li {
+			position: relative;
+		}
+		nav ul li a {
+			transition: color 0.3s ease, transform 0.3s ease;
+		}
+		nav ul li{
+			margin: 0 15px;
+		}
+		nav ul a{
+			color: black;
+			text-decoration: none;
+			font-size: 18px;
+			transition: color 0.3s transform 0.3s;
+			display: inline-block;
+		}
+		nav ul li a{
+			color: #003303;
+			text-decoration: none;
+			font-size: 19px;
+			padding: 10px;
+			display: inline-block;
+			transition: color 0.3s, transform 0.3;
+		}
+		nav ul li a:hover{
+			color: #f0a500;
+			transform: translateY(-1px);
+		}
+		#home h2 {
+			//font-size: 48px;
+			//margin-bottom: 15px;
+			//text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+		//}
+
+		//#home p { 
+			//font-size: 24px;
+			//max-width: 800px;
+			//text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.5);
+		//}
+		nav ul li:hover ul{
+			display: block;
+			animation: fadeIn 0.3s ease-in-out;
+		}
+		@keyframes fadeIn{
+			from{
+				opacity: 0;
+				transform: translateY(-10px);
+			}
+			to{
+				opacity: 1;
+				transform: translateY(0);
+			}
+		}
+		nav ul li ul {
+			display: none;
+			position: absolute;
+			top: 40px;
+			left: 0;
+			min-width: 150px;
+			background: transparent;
+			background-color: rgba(226, 226, 226, 1); /* Transparent background */
+			backdrop-filter: blur(5px); /* Adds blur effect */
+			box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+			list-style: none;
+			padding: 10px 0;
+			z-index: 1000;
+			transition: opacity 0.3s ease, transform 0.3s ease;
+		}
+
+		nav ul li ul li a{
+			padding: 10px 20px;
+			width: 150px;
+			text-align: left;
+		}
+		section{
+			padding: 100px 20px;
+			min-height: 100vh;
+			text-align: center;
+			background-color: rgb(0, 73, 33);
+			color: white;
+		}
+		/*#testimonials,*/
+		#gallery,
+		#timeline
+		/*#team*/ {
+			background-color: #011d02;/*background-color: rgba(0, 45, 2, 0.8); /* Slightly transparent */
+			color: white;
+			padding: 100px 20px;
+			min-height: 100vh;
+			text-align: center;
+		}
+		.gallery-wrapper {
+			overflow: hidden;
+			position: relative;
+			width: 100%;
+			display: flex;
+			flex-direction: column;
+			gap: 20px;
+		}
+
+		.gallery-row {
+			display: flex;
+			gap: 50px;
+			padding: 25px;
+			white-space: nowrap;
+			width: max-content;
+			will-change: transform;
+			transition: transform 0.1s linear;
+		}
+
+		.gallery-row img {
+			width: auto;
+			height: 300px;
+			object-fit: cover;
+			border-radius: 10px;
+			cursor: pointer;
+		}
+
+		.gallery-container {
+			position: relative;
+			display: inline-block;
+			z-index: 10;
+		}
+
+		.overlay-text {
+			position: absolute;
+			top: 50%;
+			left: 50%;
+			transform: translate(-50%, -50%);
+			color: white;
+			font-size: 18px;
+			font-weight: bold;
+			background: rgba(0, 0, 0, 0.5);
+			padding: 10px 15px;
+			border-radius: 5px;
+			text-align: center;
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
+
+		.gallery-container:hover .overlay-text {
+			opacity: 1;
+		}
+
+/* ✅ Perfect Loop Scrolling */
+@keyframes scrollRow {
+    from { transform: translateX(0); }
+    to { transform: translateX(-100%); } /* ✅ Moves the entire duplicated set */
+}
+
+		
+		#home{
+			color: white;
+			background-color: #003303;
+		}
+		#about{
+			color: white;
+			background-color: #002d02;/*background-color: rgba(0, 45, 2, 0.8); /* Slightly transparent */*/
+		}
+		/* ✅ Services Section with Parallax */
+		#services {
+			position: relative;
+			color: white;
+			min-height: 400px;
+			padding: 50px 0;
+			overflow: hidden;
+		}
+
+		[data-aos] {
+			opacity: 0;
+			transition: opacity 0.6s ease-in-out, transform 0.6s ease-in-out;
+		}
+
+		[data-aos] img {
+			width: 200%; /* Adjust this value */
+			max-width: 600px; /* Set a max limit */
+			height: auto;
+		}
+
+
+		[data-aos].aos-animate {
+			opacity: 1 !important;
+		}
+
+		[data-aos].fade-out {
+			opacity: 0 !important;
+		}
+
+		.services-grid {
+			display: flex;
+			flex-direction: column;
+			gap: 40px;
+			padding: 20px;
+		}
+		.service-row {
+			display: flex;
+			align-items: center;
+			gap: 20px;
+		}
+		.service-image {
+			flex: 1;
+		}
+		.service-image img{
+			width: 100%;
+			height: auto;
+			border-radius: 8px;
+		}
+		.service-text {
+			flex: 1;
+			background-color: #004d04;
+			color: white;
+			padding: 20px;
+			border-radius: 8px;
+			text-align: left;
+		}
+
+		.number-circle {
+    	width: 40px;
+    	height: 40px;
+    	border-radius: 50%;
+    	background-color: #f0a500;
+    	color: white;
+    	display: flex;
+    	align-items: center;
+    	justify-content: center;
+    	font-size: 18px;
+    	font-weight: bold;
+    	margin-right: 10px;
+		}
+		.service-item {
+    	display: flex;
+    	align-items: center;
+		}
+
+
+		/* Overall Card Container */
+		.flip-card {
+		perspective: 1500px; /* Increased perspective for stronger 3D effect */
+		width: 250px;
+		height: 300px;
+		margin: 20px;
+		position: relative;
+		display: inline-block;
+		transition: all 0.3s ease; /* Smooth transition for shadow and scaling */
+		}
+
+		/* Card Inner Content */
+		.flip-card-inner {
+		width: 100%;
+		height: 100%;
+		transform-style: preserve-3d; /* Ensures the 3D effect works */
+		transition: transform 0.3s ease-in-out; /* Smooth flip transition */
+		}
+
+		/* Flip Effect on Hover */
+		.flip-card:hover .flip-card-inner {
+		transform: rotateY(180deg); /* Flip the card on hover */
+		}
+
+		/* Front of the Card */
+		.flip-card-front {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		backface-visibility: hidden; /* Hides the back when flipped */
+		background-color: #f0f0f0; /* Light background */
+		border-radius: 10px;
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.2); /* Stronger shadow for depth */
+		overflow: hidden; /* Hide overflow to maintain a clean border during zoom */
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		transition: all 0.3s ease-in-out; /* Smooth transitions for shadow scaling */
+		}
+
+		/* Image inside flip card */
+		.flip-card-front img {
+		width: 100%;
+		height: 100%;
+		object-fit: cover; /* Ensures the image covers the space without distortion */
+		transition: transform 0.3s ease-in-out; /* Smooth transition for zoom effect */
+		border-radius: 10px; /* Optional: rounded corners */
+		}
+
+		/* Hover zoom effect for the image */
+		.flip-card:hover .flip-card-front img {
+		transform: scale(1.2); /* More noticeable zoom effect */
+		}
+
+		/* Back of the Card */
+		.flip-card-back {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		backface-visibility: hidden; /* Hides the back when flipped */
+		background-color: #137f13; /* Dark green background */
+		color: white;
+		display: flex;
+		justify-content: center;
+		align-items: center;
+		transform: rotateY(180deg); /* Rotates the back of the card */
+		border-radius: 10px;
+		box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3); /* Stronger shadow on the back */
+		}
+
+		/* Hover scaling and shadow for product cards */
+		.product {
+		width: 150px;
+		height: 200px;
+		perspective: 1500px; /* Stronger perspective for the flip effect */
+		position: relative;
+		transition: transform 0.3s ease-in-out; /* Smooth scaling on hover */
+		}
+
+		/* Inner product flip content */
+		.product-inner {
+		width: 100%;
+		height: 100%;
+		position: relative;
+		transform-style: preserve-3d;
+		transition: transform 0.3s ease-in-out; /* Flip transition */
+		}
+
+		/* Flip effect for product on hover */
+		.product:hover .product-inner {
+		transform: rotateY(180deg);
+		}
+
+		/* Front of the product card */
+		.product-front, .product-back {
+		position: absolute;
+		width: 100%;
+		height: 100%;
+		backface-visibility: hidden; /* Hides the back side */
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		text-align: center;
+		padding: 10px;
+		border-radius: 10px;
+		background: #137f13; /* Dark green background for both front and back */
+		flex-direction: column;
+		}
+
+		/* Back of the product card */
+		.product-back {
+		transform: rotateY(180deg); /* Rotates back of the card */
+		cursor: pointer;
+		background-color: #005a00; /* Darker green for the back */
+		box-shadow: 0 6px 12px rgba(0, 0, 0, 0.3); /* Deeper shadow on the back */
+		color: white;
+		}
+
+		/* Smooth hover effect for product */
+		.product:hover {
+		transform: scale(1.1); /* Enlarges the card noticeably */
+		box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4); /* Deepens shadow on hover */
+		}
+
+		/* Ensuring images fit properly inside the flip card */
+		.product-front img {
+		width: 100%; /* Makes the image take full width of the flip card */
+		height: 100%; /* Ensures it takes full height */
+		object-fit: contain; /* Maintains aspect ratio without distortion */
+		border-radius: 10px; /* Rounded corners */
+		}
+
+		/* Product Grid */
+		#products {
+		color: white;
+		background-color: #002302; /* Keeping the existing background color */
+		}
+
+		.product-grid {
+		display: grid;
+		grid-template-columns: repeat(8, 1fr); /* Keeps your grid layout with 8 columns */
+		gap: 20px;
+		justify-content: center;
+		align-items: center;
+		max-width: 90%;
+		margin: auto;
+		}
+
+		/* Ensuring Flip Card Image Fits Without Overflowing */
+		.product-front img {
+		width: 100%; /* Makes the image take full width 
+		border-radius: 10px; /* Matches the rounded corners of the flip card */
+		}
+		/* Default Parallax Background */
+		.parallax {
+			position: relative;
+			overflow: hidden;
+		}
+
+		/* Background Image for Product Section */
+		.product-parallax {
+			position: absolute;
+			top: -550px;
+			left: -20px;
+			width: calc(100% + 40px);
+			height: calc(110% + 1000px);
+			background: url("images/parallax.jpg") center center no-repeat;
+			background-size: contain;
+			z-index: 0;
+			will-change: transform;
+			transform: translateY(0);
+			opacity: 1 !important;
+			display: block !important;
+		}
+
+		/* Lightbox Fullscreen */
+		.lightbox {
+		    display: none;  
+		    position: fixed;
+		    top: 0;
+		    left: 0;
+		    width: 100%;
+		    height: 100%;
+		    background: rgba(0, 0, 0, 0.8);
+		    justify-content: center;
+		    align-items: center;
+		    z-index: 1000;
+		    visibility: hidden;  
+		    opacity: 0;  
+		    transition: opacity 0.3s ease-in-out, visibility 0.3s ease-in-out;
+		    cursor: grab;
+		    max-height: 100vh;
+		    overflow: hidden;
+		}
+
+		.lightbox.active {
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: center;
+		    align-items: center;
+		    visibility: visible;
+		    opacity: 1;
+		    cursor: grabbing;
+		}
+
+		/* Lightbox Content - Container */
+		.lightbox-content {
+		    background: white;
+		    padding: 20px;
+		    max-width: 90%; /* Increased from 80% */
+		    width: 1100px; /* Increased from 900px */
+		    height: auto;
+		    position: relative;
+		    display: flex;
+		    flex-direction: column;
+		    gap: 20px;
+		    border-radius: 8px;
+		}
+
+		/* Improved Grid Layout for Lightbox */
+		.lightbox-grid {
+		    display: grid;
+		    grid-template-columns: 1fr 1fr; /* Equal columns (50% each) */
+		    align-items: stretch; /* Stretch to fill container height */
+		    gap: 30px;
+		    width: 100%;
+		    height: auto;
+		    min-height: 400px;
+		}
+
+		/* Left Side: Swiper Image */
+		.lightbox-image {
+		    width: 100%;
+		    height: 100%;
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    overflow: hidden;
+		}
+
+		.swiper-container {
+		    width: 100%;
+		    height: 100%;
+		    overflow: hidden;
+		}
+
+		.swiper-slide {
+		    display: flex;
+		    justify-content: center;
+		    align-items: center;
+		    height: 100%;
+		    width: 100%;
+		}
+
+		/* Fix for image size within swiper slide */
+		.swiper-slide .lightbox-content {
+		    padding: 0;
+		    width: 100%;
+		    max-width: 100%;
+		    margin: 0;
+		    background: transparent;
+		}
+
+		.swiper-slide .lightbox-image {
+		    width: 100%;
+		    height: 100%;
+		    padding: 0;
+		}
+
+		.swiper-slide img {
+		    width: 100%;
+		    height: 100%;
+		    object-fit: contain; /* Changed from cover to contain */
+		    border-radius: 8px;
+		    max-height: 400px; /* Set a reasonable max height */
+		}
+
+		/* Right Side: Product Details */
+		.lightbox-description {
+		    flex: 1;
+		    width: 100%;
+		    text-align: left;
+		    display: flex;
+		    flex-direction: column;
+		    justify-content: center;
+		    gap: 15px;
+		    padding: 10px;
+		}
+
+		.lightbox-category {
+		    font-size: 22px;
+		    font-weight: bold;
+		    color: #555;
+		}
+
+		.lightbox-description h2 {
+		    font-size: 28px;
+		    margin-bottom: 10px;
+		}
+
+		.lightbox-description .price {
+		    font-size: 30px;
+		    font-weight: bold;
+		    color: #d9534f;
+		}
+
+		/* Close button styling */
+		.close {
+		    position: absolute;
+		    top: 10px;
+		    right: 15px;
+		    font-size: 28px;
+		    font-weight: bold;
+		    cursor: pointer;
+		    z-index: 10;
+		}
+
+		/* Media query for responsiveness */
+		@media (max-width: 768px) {
+		    .lightbox-grid {
+		        grid-template-columns: 1fr; /* Stack on mobile */
+		        gap: 20px;
+		    }
+		    
+		    .lightbox-content {
+		        max-width: 95%;
+		        padding: 15px;
+		    }
+		}
+
+		#contact {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 0;
+			min-height: 100vh;
+			color: white;
+			/*background-image: url("images/parallax-image.png");*/
+			background-color: #001e01; /*background-color: rgba(0, 45, 2, 0.8);*/ /* Slightly transparent */
+		}
+
+		.contact-container {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			text-align: stretch;
+			width: 100%;
+		}
+		.contact-top, .contact-bottom {
+			width: 100%;
+		}
+		.contact-top img {
+			width: 100%;
+			height: auto;
+		}
+		.contact-locations {
+			display: grid;
+			grid-template-columns: repeat(2, 1fr);
+			gap: 20px;
+			width: 100%;
+			max-width: 2000px;
+			margin: 20px auto;
+			text-align: left;
+		}
+		.contact-bottom {
+			width: 100%;
+			max-width: 1200px;
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+		}
+		.contact-details {
+			text-align: center;
+			width: 100%;
+			margin-top: 40px;
+		}
+
+		.floating-btn {
+    		position: fixed;
+    		bottom: 20px;
+    		right: 20px;
+    		background: #f0a500;
+    		color: white;
+    		padding: 15px 20px;
+    		border-radius: 50px;
+    		text-decoration: none;
+    		font-size: 16px;
+    		font-weight: bold;
+    		box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    		transition: transform 0.3s ease-in-out;
+		}
+
+		.floating-btn:hover {
+    		transform: scale(1.1);
+    		background: #d48f00;
+		}
+
+
+		.location {
+			background: #001e01;
+			padding: 15px;
+			border-radius: 8px;
+			box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+		}
+		.location h4 {
+			margin-bottom: 5px;
+			font-size: 18px;
+		}
+		.location img {
+			width: 100%;
+			border-radius: 8px;
+			transition: transform 0.3s ease-in-out;
+		}
+
+		.location img:hover {
+			transform: scale(1.8);
+			box-shadow: 0px 8px 16px rgba(0, 0, 0, 0.3);
+		}
+		.location-image-container {
+			position: relative;
+			width: 100%;
+		}
+		.hover-info {
+			position: absolute;
+			right: 10px;
+			top: 50%;
+			transform: translateY(-50%);
+			background: rgba(0, 0, 0, 0.7);
+			color: white;
+			padding: 5px 10px;
+			border-radius: 5px;
+			opacity: 0;
+			transition: opacity;
+			z-index: 1000;
+		}
+		.location-image-container.hover .hover-info {
+			opacity: 1;
+		}
+
+		@media (max-width: 768px) {
+			.location img:hover {
+				transform: none;
+			}
+		}
+
+		footer { 
+    		color: white;
+    		background-color: #005a05;
+    		text-align: center;
+    		position: relative;
+    		overflow: hidden;
+    		padding: 10px 0;
+		}
+		.footer-overlay {
+    		border: 2px solid black;
+    		display: block !important;
+    		position: absolute;
+    		top: 0;
+    		left: 0;
+    		width: 100%;
+    		height: 100%;
+    		/*background: url('images/background-image.png') no-repeat center center;*/
+    		background-size: 70%;
+    		opacity: 0.5;
+    		pointer-events: none;
+    		z-index: 3;
+		}
+		.footer-container {
+    		display: grid;
+    		grid-template-columns: 1fr 2fr;
+    		align-items: center;
+    		width: 100%;
+    		margin: 0 auto;
+    		padding: 20px 0;
+    		gap: 20px;
+		}
+		.footer-left {
+    		display: flex;
+    		justify-content: center;
+    		align-items: center;
+		}
+		.footer-right {
+    		display: grid;
+    		grid-template-columns: repeat(3, 1fr);
+    		gap: 15px;
+    		text-align: left;
+		}
+		.footer-section {
+    		text-align: left;
+    		font-size: 12px;
+		}
+		.footer-left img {
+    		width: 200px;
+    		height: auto;
+		}
+		.footer-section h3 {
+    		margin-bottom: 10px;
+    		font-size: 12px;
+		}
+		.footer-section ul {
+    		list-style: none;
+    		padding: 0;
+		}
+		.footer-section ul li {
+    		margin: 5px 0;
+		}
+		.footer-section ul li a {
+    		color: white;
+    		text-decoration: none;
+    		font-size: 12px;
+		}
+		.download-buttons {
+    		margin: 5px 0;
+    		text-align: center;
+		}
+		.download-btn {
+    		background: #f0a500;
+    		color: white;
+    		padding: 8px 12px;
+    		border: none;
+    		cursor: pointer;
+    		border-radius: 5px;
+    		font-size: 10px;
+    		text-decoration: none;
+    		display: inline-block;
+    		margin: 5px;
+		}
+		.download-btn:hover {
+    		background: #d48f00;
+		}
+		.social-icons {
+    		margin: 10px 0;
+    		text-align: center;
+		}
+		.social-icons img {
+    		width: 20px;
+    		margin: 0 5px;
+		}
+		.footer-bottom {
+    		margin-top: 5px;
+    		font-size: 10px;
+    		text-align: center;
+		}
+
+		@media (max-width: 768px) {
+    		.footer-container {
+        		grid-template-columns: 1fr;
+        		text-align: center;
+    		}
+    		.footer-right {
+        		grid-template-columns: 1fr;
+    		}
+    		.footer-left img {
+        		width: 150px;
+    		}
+		}
+
+		.download-buttons {
+			margin: 5px 0;
+			text-align: center;
+		}
+		.download-btn {
+			background: #f0a500;
+			color: white;
+			padding: 10px 10px;
+			border: none;
+			cursor: pointer;
+			border-radius: 5px;
+			font-size: 10px;
+			text-decoration: none;
+			display: inline-block;
+			margin: 5px;
+		}
+		.download-btn:hover {
+			background: #d48f00;
+		}
+		.social-icons {
+			margin: 10px 0;
+			text-align: center;
+		}
+		.social-icons img {
+			width:  25px;
+			margin: 0 8px;
+		}
+		.footer-bottom {
+			margin-top: 5px;
+			font-size: 9px;
+			text-align: center;
+		}
+		.faq-container {
+			margin-top: 40px;
+			padding: 20px;
+			background: url('contact.png') no repeat center center/cover;
+			border-radius: 8px;
+			text-align: center;
+			color: white;
+		}
+		/*.faq {
+			margin-top: 10px;
+		}
+		.faq-question {
+			width: 100%;
+			padding: 10px;
+			background: #ffffff;
+			color: black;
+			border: none;
+			text-align: left;
+			cursor: pointer;
+			font-size: 16px;
+		}
+		.faq-answer {
+			display: none;
+			padding: 10px;
+			background: black;
+			border-left: 3px solid #ffffff;
+			transition: all 0.3s ease-in-out;
+		}
+
+		.faq-question:focus + .faq-answer,
+		.faq-question:hover + .faq-answer {
+			display: block;
+		}*/
+
+		/*.download-btn {
+			padding: 10px 20px;
+			background-color: #f0a500;
+			color: white;
+			border: none;
+			cursor: pointer;
+			font-size: 18px;
+			border-radius: 5px;
+			transition: background-color 0.3s ease;
+		}
+		.download-btn:hover {
+			background-color: #d48f00; 
+		}*/
+		//@media (max-width: 600px){
+			//header{
+				/flex-direction: column;
+				//align-items: center;
+			//}
+			//nav ul{
+				//flex-direction: column;
+				//gap: 20px;
+			//}
+			//.logo a img{
+				//width: 300px;
+				//height: auto;
+			//}
+		//}
+		@media (max-width: 768px) {
+			.image-grid {
+			grid-template-columns: 1fr;
+			grid-template-rows: repeat(6, 200px);
+			grid-template-areas: none;
+			}
+		}
+
+	</style>
+			<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+			<!-- Swiper.js Styles -->
+			<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
+			<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+</head>	
+<body>
+
+	<!--<div class="background-wrapper"></div>--> <!-- Add this here -->
+	<!-- <div class="headers-container"> -->
+		<header>
+			<div class="logo">
+				<a href="#home">
+					<img src="images/img.png" alt="Company Logo" width="450" height="600"></a>
+			</div>
+			<nav>
+				<div class="hamburger" id="hamburger">
+					<div class="bar"></div>
+					<div class="bar"></div>
+					<div class="bar"></div>
+				</div>
+				<ul class="nav-menu" id="nav-menu">
+					<li><a href="#home">Home</a></li>
+					<li><a href="#about">About</a></li>
+					<li><a href="#services">Services</a></li>
+					<li><a href="#products">Products</a></li>
+					<!--<li><a href="#download-profile">Profile</a></li>-->
+					<li><a href="#gallery">Gallery</a></li>
+					<!--<li><a href="#team">Team</a></li>-->
+					<!--<li><a href="#testimonials">Testimonials</a></li>-->
+					<!--<li><a href="#contact">Contact</a></li>-->
+				</ul>
+			</nav>
+		</header>
+
+	<section id="home">
+		<h1 class="hero-text" style="font-size: 50px;">Welcome to MSD Godspeed Exhibits Corp.</h1>
+
+		<div class="carousel-container">
+			<div class="carousel-slide" id="carouselSlide"></div>
+			<div class="carousel-buttons">
+				<button id="prevBtn">←</button>
+				<button id="nextBtn">→</button>
+			</div>
+			<div class="carousel-dots"></div>
+		</div>
+	</section>
+		
+
+	<section id="about">
+		<a href="fullview.html?image=about.jpg&text=We%20are%20one%20of%20the%20biggest%20Exhibition%20Booth%20Contractor%20in%20the%20Philippines.%20We%20have%20been%20catering%20Exhibition%2F%20Events%20for%20the%20past%2030%20years%20from%20Basic%20Booth%20System%20to%20Special%20Booth%20Designs.%0A%0A
+		MSD%20Godspeed%20Exhibits%20Corporation%20started%20as%20a%20single%20proprietorship%20company%20known%20as%20GODSPEED%20EXHIBITS%20SYSTEMS%20in%20May%201992.%20As%20the%20exhibition%20market%20expanded,%20it%20became%20a%20corporation,%20registered%20and%20approved%20by%20the%20Securities%20and%20Exchange%20Commission%20(SEC)%20on%20July%203,%202007.%0A%0A
+		As%20one%20of%20the%20key%20players%20in%20the%20exhibition%20business%20for%20the%20past%2026%20years,%20MSD%20Godspeed%20evolved%20from%20a%20system%20booth%20contractor%20to%20a%20total%20exhibition%20service%20provider,%20serving%20end%20to%20end%20services%20to%20customers.%0A%0A
+		With%20its%20long%20years%20of%20involvement%20in%20the%20exhibition%20industry,%20MSD%20Godspeed%20has%20successfully%20accomplished%20a%20number%20of%20quality%20projects%20which%20produced%20a%20vast%20list%20of%20loyal,%20pleased%20and%20satisfied%20customers.%20MSD%20Godspeed%20takes%20pride%20in%20partnering%20with%20its%20customers%20to%20create%20an%20environment%20that%20supports%20their%20business%20objectives%20and%20deliver%20results." 
+		style="text-decoration: none; color: inherit;">
+		 <h2>About Us</h2>
+		 <p>One of the Biggest Exhibition Booth Contractors in the Philippines.</p>
+	 </a>
+		<div class="image-grid">
+
+			<a class="image-container" href="fullview.html?image=about1.jpg&text=VISION%20%26%20CORE%20VALUES%20STATEMENTS%0AFrom%20MSD%20GODSPEED%20EXHIBITS%20CORPORATION,%20we%20are%20engaged%20in%20the%20following%20scope%20of%20work:%20OUTDOOR%20%26%20INDOOR%20EXHIBIT%20BOOTH%20SERVICES,%20INTERIOR%20RENOVATION,%20AND%20OPERATIONS%20MANAGEMENT.%0AFocus%20on%20achieving%20it,%20MSD%20GODSPEED%20has%20defined%20the%20following%20corporate%20values%20and%20vision.%0A%0AVISION%20STATEMENT%0AThrough%20excellence%20in%20providing%20general%20services,%20MSD%20GODSPEED%20vision%20is%20to%20provide%20the%20best%20and%20professional%20quality%20installation%20of%20booths%20and%20interior%20renovation%20projects,%20supporting%20our%20clients%20in%20better%20performance,%20efficiency,%20and%20cost-effectiveness.">
+				<img src="images/about1.jpg" alt="About Image 1">
+				<div class="overlay-text"><b>VISION & CORE VALUES STATEMENTS</b></div>
+			</a>
+			<a class="image-container" href="fullview.html?image=about1.jpg&text=At MSD GODSPEED EXHIBITS CORP, we believe in delivering nothing but the highest quality of work in every project we undertake. From the initial concept design to the final execution, our team of skilled professionals meticulously oversees every detail to ensure precision, craftsmanship, and excellence. We take pride in our commitment to upholding industry standards and best practices, consistently exceeding our clients' expectations and setting new benchmarks for quality in the exhibition industry.">
+				<img src="images/about2.jpg" alt="About Image 2">
+				<div class="overlay-text"><b>QUALITY OF WORK</b></div>
+			</a>
+			<a class="image-container" href="fullview.html?image=about3.jpg&text=In today's dynamic and competitive business landscape, we understand the importance of staying ahead of the curve. At MSD GODSPEED EXHIBITS CORP, we proactively monitor market trends, industry developments, and emerging technologies to anticipate and adapt to changes in the competitive landscape. By staying agile and responsive, we position ourselves as leaders in innovation, continuously evolving our strategies and offerings to meet the evolving needs of our clients and stay one step ahead of the competition.">
+				<img src="images/about3.jpg" alt="About Image 3">
+				<div class="overlay-text"><b>PERCEIVED COMPETITIVE REACTION</b></div>
+			</a>
+			<a class="image-container" href="fullview.html?image=about4.jpg&text=Our journey at MSD GODSPEED EXHIBITS CORP has been characterized by steady and sustainable organic growth. Through our unwavering dedication to delivering exceptional value and unparalleled service to our clients, we have earned their trust and loyalty, driving organic growth through positive word-of-mouth referrals and repeat business. By fostering long-term partnerships built on mutual respect, integrity, and shared success, we continue to expand our reach and influence in the exhibition industry, organically growing our business while maintaining our commitment to excellence.">
+				<img src="images/about4.jpg" alt="About Image 4">
+				<div class="overlay-text"><b>ORGANIC GROWTH</b></div>
+			</a>
+			<a class="image-container" href="fullview.html?image=about5.jpg&text=At MSD GODSPEED EXHIBITS CORP, we are committed to continuous innovation and product extension to meet the evolving needs and preferences of our clients. By staying attuned to market dynamics and customer feedback, we identify new opportunities for expansion and diversification, developing innovative solutions and offerings that add value and enhance the overall customer experience. Whether it's introducing new services, expanding our product lines, or embracing emerging technologies, we are always exploring new horizons and pushing the boundaries of possibility to better serve our clients and drive sustainable growth.">
+				<img src="images/about5.jpg" alt="About Image 5">
+				<div class="overlay-text"><b>PRODUCT EXTENSION</b></div>
+			</a>
+			<a class="image-container" href="fullview.html?image=about6.jpg&text=Integrity is the cornerstone of our business philosophy at MSD GODSPEED EXHIBITS CORP. We conduct ourselves with honesty, transparency, and integrity in all our dealings, fostering trust and credibility with our clients, partners, and stakeholders. We believe in fair and ethical business practices, upholding the highest standards of professionalism and integrity in every interaction. By building relationships based on trust, respect, and mutual benefit, we create a positive and conducive environment for collaboration and success, ensuring that every transaction is conducted with integrity and honor.">
+				<img src="images/about6.jpg" alt="About Image 6">
+				<div class="overlay-text"><b>STRAIGHT & HONORABLE DEALINGS</b></div>
+			</a>
+		</div>
+	</section>
+
+	<section id="services" class="parallax">
+		<div class="parallax-bg"></div> <!-- Blurred background with parallax effect -->
+		<div data-aos="fade-up" data-aos-anchor-placement="top-bottom">
+			<h2>Our Services</h2>
+			<div class="services-grid">
+				
+				<!-- First Service Row -->
+				<div class="service-row" data-aos="fade-up-right" data-aos-delay="300">
+					<div class="service-image">
+						<img src="images/service1.jpg" alt="Service 1">
+					</div>
+					<div class="service-text">
+						<div class="service-item">
+							<div class="number-circle">1</div>
+							<h3><b>Booth Contractor for Exhibitions & Events</b></h3>
+						</div>
+						<p>Expert booth construction for exhibitions and events, tailored to your brand's vision and requirements.</p>
+	
+						<div class="service-item">
+							<div class="number-circle">2</div>
+							<h3><b>Project Management</b></h3>
+						</div>
+						<p>Comprehensive project management solutions to streamline processes, ensure timely delivery, and exceed expectations.</p>
+	
+						<div class="service-item">
+							<div class="number-circle">3</div>
+							<h3><b>Branding + Creative Design</b></h3>
+						</div>
+						<p>Elevate your brand with our creative design services, crafting compelling visual identities and engaging brand experiences.</p>
+					</div>
+				</div>
+	
+				<!-- Second Service Row -->
+				<div class="service-row" data-aos="fade-up-left" data-aos-delay="300">
+					<div class="service-text">
+						<div class="service-item">
+							<div class="number-circle">4</div>
+							<h3><b>Operations</b></h3>
+						</div>
+						<p>Efficient operations management to optimize resources, streamline workflows, and maximize productivity.</p>
+	
+						<div class="service-item">
+							<div class="number-circle">5</div>
+							<h3><b>Installation & Dismantling</b></h3>
+						</div>
+						<p>Professional installation and dismantling services for seamless setup and teardown of your exhibits and events.</p>
+	
+						<div class="service-item">
+							<div class="number-circle">6</div>
+							<h3><b>Logistics & Management</b></h3>
+						</div>
+						<p>End-to-end logistics management to coordinate transportation, shipping, and delivery for your exhibits and events.</p>
+					</div>
+					<div class="service-image">
+						<img src="images/service2.jpg" alt="Service 2">
+					</div>
+				</div>
+	
+				<!-- Third Service Row -->
+				<div class="service-row" data-aos="fade-up-right" data-aos-delay="300">
+					<div class="service-image">
+						<img src="images/service3.jpg" alt="Service 3">
+					</div>
+					<div class="service-text">
+						<div class="service-item">
+							<div class="number-circle">7</div>
+							<h3><b>Signage & Visual Identity</b></h3>
+						</div>
+						<p>Eye-catching signage and visual identity solutions to enhance your brand presence and captivate your audience.</p>
+	
+						<div class="service-item">
+							<div class="number-circle">8</div>
+							<h3><b>Furniture & Fixtures Rental</b></h3>
+						</div>
+						<p>Flexible furniture and fixtures rental options to enhance the functionality and aesthetics of your space.</p>
+	
+						<div class="service-item">
+							<div class="number-circle">9</div>
+							<h3><b>Electrical & Audio Rental</b></h3>
+						</div>
+						<p>State-of-the-art electrical and audio-visual equipment rental for immersive and interactive experiences.</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	
+
+	<!-- Product Section -->
+	<section id="products" class="container parallax">
+		<div class="parallax-bg product-parallax"></div> <!-- Background Image -->
+	
+		<!-- ✅ Wrap content in a div to ensure it stays in place -->
+		<div class="parallax-content">
+			<h2>Our Products</h2>
+	
+			<!-- ✅ Product Grid inside the content wrapper -->
+			<div class="product-grid">
+				<script>
+					const productNames = [
+						"Chairs", "Tables", "Conference Set", "Sofa Sets",
+						"Sofa Single", "Showcase", "Display", "Props and Aids",
+						"Carpet", "Appliances", "TV and Audio Visual", "Outlet and Adaptor",
+						"Breaker Single Phase", "Breaker Three Phase", "Transformer", "Light Fittings"
+					];
+	
+					const products = [];
+					for (let i = 1; i <= 16; i++) {
+						products.push(`
+							<div class="product" onclick="openLightbox(${i})">
+								<div class="product-inner">
+									<div class="product-front">
+										<img src="images/product${i}.jpg" alt="${productNames[i - 1]}">
+										<h3>${productNames[i - 1]}</h3>  <!-- ✅ Display fixed product names -->
+									</div>
+									<div class="product-back">
+										<p>Click to view details</p>
+									</div>
+								</div>
+							</div>
+						`);
+					}
+					document.write(products.join(''));
+				</script>
+			</div>
+		</div>
+	</section>
+	
+
+<!-- Lightbox -->
+<!-- Improved Lightbox Structure -->
+<div id="lightbox" class="lightbox" onclick="closeLightbox()">
+    <div class="lightbox-content" onclick="event.stopPropagation();">
+        <span class="close" onclick="closeLightbox()">&times;</span>
+        <!-- Two-column grid layout -->
+        <div class="lightbox-grid">
+            <!-- Left: Swiper Image Slider -->
+            <div class="lightbox-image">
+                <div class="swiper-container">
+                    <div class="swiper-wrapper" id="swiperWrapper">
+                        <!-- Swiper slides will be inserted dynamically -->
+                    </div>
+                    <!-- Swiper Navigation -->
+                    <div class="swiper-button-next"></div>
+                    <div class="swiper-button-prev"></div>
+                </div>
+            </div>
+            <!-- Right: Product Details -->
+            <div class="lightbox-description">
+                <h2 id="lightbox-title">Product Name</h2>
+                <p class="lightbox-category" id="lightbox-category">Category</p>
+                <p class="price" id="lightbox-price">Price</p>
+                <!--<p id="lightbox-description">Product Description</p>-->
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<section id="gallery">
+    <h2>Gallery</h2>
+    <p>Explore our portfolio of past projects.</p>
+    <div class="gallery-wrapper">
+        <div class="gallery-row row-1">
+            <a class="gallery-container" href="photo-gallery.html" target="_blank">
+                <img src="images/gallery1.jpg" alt="Gallery Image 1">
+                <div class="overlay-text">Gallery Image 1</div>
+            </a>
+            <a class="gallery-container" href="photo-gallery.html" target="_blank">
+                <img src="images/gallery2.jpg" alt="Gallery Image 2">
+                <div class="overlay-text">Gallery Image 2</div>
+            </a>
+            <a class="gallery-container" href="photo-gallery.html" target="_blank">
+                <img src="images/gallery3.jpg" alt="Gallery Image 3">
+                <div class="overlay-text">Gallery Image 3</div>
+			</a>
+			<a class="gallery-container" href="photo-gallery.html" target="_blank">
+				<img src="images/gallery4.jpg" alt="Gallery Image 4">
+				<div class="overlay-text">Gallery Image 4</div>
+			</a>
+			<a class="gallery-container" href="photo-gallery.html" target="_blank">
+				<img src="images/gallery5.jpg" alt="Gallery Image 5">
+				<div class="overlay-text">Gallery Image 5</div>
+			</a>
+			<a class="gallery-container" href="photo-gallery.html" target="_blank">
+				<img src="images/gallery6.jpg" alt="Gallery Image 6">
+				<div class="overlay-text">Gallery Image 6</div>
+			</a>
+        </div>
+        <div class="gallery-row row-2">
+            <a class="gallery-container" href="photo-gallery.html" target="_blank">
+                <img src="images/gallery7.jpg" alt="Gallery Image 7">
+                <div class="overlay-text">Gallery Image 7</div>
+            </a>
+            <a class="gallery-container" href="photo-gallery.html" target="_blank">
+                <img src="images/gallery8.jpg" alt="Gallery Image 8">
+                <div class="overlay-text">Gallery Image 8</div>
+            </a>
+            <a class="gallery-container" href="photo-gallery.html" target="_blank">
+                <img src="images/gallery9.jpg" alt="Gallery Image 9">
+                <div class="overlay-text">Gallery Image 9</div>
+            </a>
+			<a class="gallery-container" href="photo-gallery.html" target="_blank">
+                <img src="images/gallery10.jpg" alt="Gallery Image 10">
+                <div class="overlay-text">Gallery Image 10</div>
+            </a>
+            <a class="gallery-container" href="photo-gallery.html" target="_blank">
+                <img src="images/gallery11.jpg" alt="Gallery Image 11">
+                <div class="overlay-text">Gallery Image 11</div>
+            </a>
+            <a class="gallery-container" href="photo-gallery.html" target="_blank">
+                <img src="images/gallery12.jpg" alt="Gallery Image 12">
+                <div class="overlay-text">Gallery Image 12</div>
+            </a>
+        </div>
+    </div>
+</section>
+	<!--<section id="team">
+		<h2>Meet Our Team</h2>
+		<p>John Levi B. Capitly</p>
+	</section>-->
+
+	<!--<section id="testimonials">
+		<h2>Client Testimonials</h2>
+		<div class="testimonial">
+		<p>"MSD Godspeed help us achieve our exhibition goals flawlessly!" - Client A</p>
+		</div>
+		<div class="testimonial">
+		<p>"Professional and creative team to work with."- Client B</p>
+		</div>-->
+	
+	<!-- FAQ Inserted -->
+	<!--<div class="faq-container">
+		<h3>Frequently Asked Questions</h3>
+		<div class="faq">
+			<button class="faq-question">What services do you offer?</button>
+			<div class="faq-answer">We offer exhibition booth design, production, and logistics.</div>
+		</div>
+		<div class="faq">
+			<button class="faq-question">How can I contact you?</button>
+			<div class="faq-answer">You can reach us via email at contact@msdgodspeed.com or call #8-722-6940.</button>
+			</div>
+		</div>
+	</section>-->
+
+	<section id="contact"> <!--class="parallax"-->
+    <div class="contact-container">
+        <div class="contact-image">
+            <img src="images/contact.png" alt="Contact Image">
+        </div>
+        <div class="contact-bottom">    
+            <div class="contact-locations">
+                <div class="location">
+                    <h4>Head Office</h4>
+                    <a href=https://maps.app.goo.gl/GQJoP1aYDHUgPhux8 target="_blank">
+    <img src="images/head-office-map.jpg" alt="Head Office Map" width="100%" height="300px" style="border-radius: 10px;"></a>
+                </div>
+
+                <div class="location">
+                    <h4>Production/Warehouse Plant</h4>
+                    <a href="https://maps.app.goo.gl/ntNrevxVrpNNQAy7A" target="_blank">
+    <img src="images/warehouse-map.jpg" alt="Warehouse Map" width="100%" height="300px" style="border-radius: 10px;"></a>
+                </div>
+            </div>
+            <div class="contact-bottom">
+            <h2>Contact</h2>
+
+            <!--  Move .contact-details OUTSIDE .contact-locations -->
+            <div class="contact-details">
+                <p>Get in touch with us for inquiries and partnerships.</p>
+                <p>Email: contact@msdgodspeed.com</p>
+                <p>Contact: #8-722-6940</p>
+            </div>
+
+            <!--  Move nav OUTSIDE .contact-locations -->
+            <!-- <nav style="margin-top: 50px;">
+                <a href="#home" style="margin-right: 15px; text-decoration: none; color: #f5f5f5;">Home</a>
+                <a href="#about" style="margin-right: 15px; text-decoration: none; color: #f5f5f5;">About</a>
+                <a href="#gallery" style="margin-right: 15px; text-decoration: none; color: #f5f5f5;">Gallery</a>
+                <a href="#services" style="text-decoration: none; color: #f5f5f5;">Services</a>
+            </nav> -->
+        </div>
+    </div>
+	</section>
+
+		<footer>
+    		<div class="footer-overlay"></div>
+    		<div class="footer-container">
+        	<div class="footer-left">
+				<a href="#home">
+            		<img src="images/campaign-monitor-logo.png" alt="Campaign Monitor" class="footer-logo"></a>
+        		</div> 
+        		<div class="footer-right">
+            		<div class="footer-section">
+                		<h3>Products</h3>
+                		<ul>
+                    		<li><a href="#home">Campaign Monitor</a></li>
+                    		<li><a href="#">Pricing</a></li>
+                    		<li><a href="#">App Store</a></li>
+                    		<li><a href="#">API</a></li>
+                    		<li><a href="#">Email</a></li>
+                		</ul>
+            		</div>
+            		<div class="footer-section">
+                		<h3>Email Marketing</h3>
+                		<ul>
+                    		<li><a href="#">Agencies</a></li>
+                    		<li><a href="#">Retail</a></li>
+                    		<li><a href="#">Nonprofit</a></li>
+                    		<li><a href="#">Entertainment</a></li>
+                    		<li><a href="#">Publishing</a></li>
+                		</ul>
+            		</div>
+            		<div class="footer-section">
+                		<h3>Community</h3>
+                		<ul>
+                    		<li><a href="#">Get Starter</a></li>
+                    		<li><a href="#">Customers</a></li>
+                    		<li><a href="#">Resources</a></li>
+                    		<li><a href="#">Blog</a></li>
+                    		<li><a href="#">Support</a></li>
+                		</ul>
+            		</div>
+        		</div>
+    		</div>
+
+    		<div class="download-buttons">
+        		<a href="docs/company-profile.pdf" download class="download-btn">Download Company Profile</a>
+        		<a href="docs/pricelist.pdf" download class="download-btn">Download Pricelist</a>
+    		</div>
+
+    		<div class="social-icons">
+        		<a href="https://www.facebook.com/MSDGospeedExhibitsCorp"><img src="images/facebook.png" alt="Facebook"></a>
+        		<a href="https://www.instagram.com/msdgodspeed2022/"><img src="images/instagram.png" alt="Instagram"></a>
+    		</div>
+
+    		<div class="footer-bottom">
+        		<p>&copy; 2025 MSD Godspeed. All Rights Reserved | <a href="#">Terms & Policies</a></p>
+    		</div>
+		</footer>
+		<a href="#contact" class="floating-btn">📞 Contact Us</a>
+
+	<!--
+	<footer>
+    	<div class="footer-container">
+        	<div class="footer-section">
+            	<h3>About Us</h3>
+            	<p>Your company description here.</p>
+        	</div>
+        	<div class="footer-section">
+            	<h3>Quick Links</h3>
+            	<ul>
+                	<li><a href="#home">Home</a></li>
+                	<li><a href="#services">Services</a></li>
+                	<li><a href="#products">Products</a></li>
+                	<li><a href="#contact">Contact</a></li>
+            	</ul>
+        	</div>
+        	<div class="footer-section">
+            	<h3>Newsletter Signup</h3>
+//Campaign Monitor Form///
+            	<form action="YOUR_CAMPAIGN_MONITOR_FORM_URL" method="post">
+                	<input type="email" name="cm-email" placeholder="Enter your email" required>
+                	<button type="submit">Subscribe</button>
+            	</form>
+        	</div>
+    	</div>
+    	<p class="copyright">&copy; 2025 Your Company. All rights reserved.</p>
+	</footer> 
+	-->
+	<script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
+	<script>
+
+		document.addEventListener("DOMContentLoaded", () => {
+			const slide = document.querySelector(".carousel-slide");
+			const prevBtn = document.querySelector("#prevBtn");
+			const nextBtn = document.querySelector("#nextBtn");
+			const dotsContainer = document.querySelector(".carousel-dots");
+
+			const imageCount = 11; // Total images
+			let index = 0; // Start from first actual image
+			let autoSlideInterval;
+
+			// ✅ Load images dynamically
+			slide.innerHTML = Array.from({ length: imageCount }, (_, i) => 
+				`<img src="images/home${i + 1}.png" alt="Slide ${i + 1}">`
+			).join('');
+
+			let images = document.querySelectorAll(".carousel-slide img");
+
+			// ✅ Ensure correct positioning of slides
+			const getImageWidth = () => window.innerWidth; // Dynamically get screen width
+
+			const updateSlidePosition = () => {
+				slide.style.transition = "none"; // Remove transition on resize
+				slide.style.transform = `translateX(${-getImageWidth() * index}px)`;
+			};
+
+			slide.style.transform = `translateX(${-getImageWidth() * index}px)`;
+
+			// ✅ Create navigation dots
+			images.forEach((_, i) => {
+				const dot = document.createElement("div");
+				dot.classList.add("dot");
+				if (i === 0) dot.classList.add("active");
+				dot.addEventListener("click", () => moveToSlide(i, true));
+				dotsContainer.appendChild(dot);
+			});
+
+			const updateDots = () => {
+				dotsContainer.querySelectorAll(".dot").forEach((dot, i) => {
+					dot.classList.toggle("active", i === index);
+				});
+			};
+
+			const updateButtons = () => {
+				prevBtn.disabled = index === 0; // Disable "Prev" at first image
+				nextBtn.disabled = index === imageCount - 1; // Disable "Next" at last image
+			};
+
+			const moveToSlide = (i, manual = false) => {
+				if (manual) resetAutoSlide();
+				index = i;
+				slide.style.transition = "transform 0.8s ease-in-out";
+				slide.style.transform = `translateX(${-getImageWidth() * index}px)`;
+				updateDots();
+				updateButtons();
+			};
+
+			const nextSlide = () => {
+				index++;
+				slide.style.transition = "transform 0.8s ease-in-out";
+				slide.style.transform = `translateX(${-window.innerWidth * index}px)`;
+				updateDots();
+				updateButtons();
+
+				// ✅ Reset index after the last slide for smooth looping
+				setTimeout(() => {
+					if (index >= imageCount) {
+						slide.style.transition = "none"; // Remove animation for instant reset
+						index = 0; // Move back to the first image
+						slide.style.transform = `translateX(0)`; // Keep moving right
+					}
+				}, 800); // Match transition duration
+			};
+
+			const prevSlide = () => {
+				if (index > 0) { // ✅ Stop at first image
+					index--;
+					slide.style.transition = "transform 0.8s ease-in-out";
+					slide.style.transform = `translateX(${-getImageWidth() * index}px)`;
+					updateDots();
+					updateButtons();
+				}
+			};
+
+			const startAutoSlide = () => {
+				autoSlideInterval = setInterval(nextSlide, 3000);
+			};
+
+			const resetAutoSlide = () => {
+				clearInterval(autoSlideInterval);
+				startAutoSlide();
+			};
+
+			window.addEventListener("resize", updateSlidePosition);
+			nextBtn.addEventListener("click", () => {
+				nextSlide();
+				resetAutoSlide();
+			});
+			prevBtn.addEventListener("click", () => {
+				prevSlide();
+				resetAutoSlide();
+			});
+
+			startAutoSlide();
+			updateButtons(); // Ensure correct button states on load
+		});
+
+
+		/* =============================================
+   		6. JavaScript for Scroll-Triggered Animations
+   		============================================= */
+		   document.addEventListener("DOMContentLoaded", function () {
+        		const fadeElements = document.querySelectorAll(".fade-in");
+
+        		const observer = new IntersectionObserver(entries => {
+            		entries.forEach(entry => {
+                		if (entry.isIntersecting) {
+                    		entry.target.classList.add("show");
+                		}
+            		});
+        		}, { threshold: 0.1 });
+
+        		fadeElements.forEach(element => observer.observe(element));
+    		});
+
+
+			function updateParallax() {
+				const parallaxSections = document.querySelectorAll('.parallax');
+
+				parallaxSections.forEach(section => {
+					const parallaxBg = section.querySelector('.parallax-bg');
+					if (!parallaxBg) return;
+
+					const rect = section.getBoundingClientRect();
+					
+					// Adjust scroll speed (higher negative = moves up faster)
+					let speedMultiplier = 0.3; 
+
+					if (rect.top < window.innerHeight && rect.bottom > 0) {
+						let parallaxAmount = rect.top * speedMultiplier;
+						parallaxBg.style.transform = `translateY(${parallaxAmount}px)`; // Moves upward
+					}
+				});
+			}
+
+			// ✅ Attach the function to events
+			window.addEventListener("scroll", () => requestAnimationFrame(updateParallax));
+			window.addEventListener("resize", updateParallax);
+			window.addEventListener("load", updateParallax);
+
+
+
+		// Set default section to 'home' on reload
+		window.onload = () => {
+			window.scrollTo(0, 0);
+			document.querySelector('nav a[href="#home"]').classList.add('active');
+		};
+		// Highlight active section link on scroll
+		window.addEventListener('scroll', () => {
+			const sections = document.querySelectorAll('section');
+			const navLinks = document.querySelectorAll('nav ul li a');
+
+			sections.forEach((section, index)=> {
+				const rect = section.getBoundingClientRect();
+				if (rect.top <= 100 && rect.bottom >= 100 ){
+					navLinks.forEach(link => link.classList.remove('active'));
+					navLinks[index].classList.add('active');
+				}
+			});
+		});
+
+		// Smooth scrolling for older browsers
+		document.querySelectorAll('nav a, .logo a').forEach(anchor => {
+    		anchor.addEventListener('click', function (e) {
+       			e.preventDefault();
+        		const target = document.querySelector(this.getAttribute('href'));
+        		if (target) {
+            		target.scrollIntoView({
+                		behavior: 'smooth'
+            		});
+        		} else {
+            		window.scrollTo({
+                		top: 0,
+                		behavior: 'smooth'
+            		});
+        		}
+    		}); 
+		});
+		document.querySelectorAll('.image-grid img').forEach((img) => {
+			img.addEventListener('click', () => {
+				window.open(img.src, '_blank');
+			});
+			img.addEventListener('keypress', (e) => {
+				if (e.key == 'Enter') { 
+					window.open(img.src, '_blank');
+				}
+			})
+		});
+
+		document.addEventListener("click", function (event) {
+			if (event.target.closest(".gallery-row img")) { // Target images inside gallery rows
+				console.log("Image clicked!"); // Debugging
+				window.open('photo-gallery.html', '_blank'); // Open in a new tab
+			}
+		});
+
+
+
+		document.addEventListener("DOMContentLoaded", function () {
+			const galleryRows = document.querySelectorAll(".gallery-row");
+
+			// List of available images
+			const allImages = [
+				"gallery1.jpg", "gallery2.jpg", "gallery3.jpg", "gallery4.jpg",
+				"gallery5.jpg", "gallery6.jpg", "gallery7.jpg", "gallery8.jpg",
+				"gallery9.jpg", "gallery10.jpg", "gallery11.jpg", "gallery12.jpg",
+				"gallery13.jpg", "gallery14.jpg", "gallery15.jpg",
+				"gallery16.jpg", "gallery17.jpg", "gallery18.jpg", "gallery19.jpg",
+				"gallery20.jpg", "gallery21.jpg", "gallery22.jpg", "gallery23.jpg",
+				"gallery24.jpg", "gallery25.jpg", "gallery26.jpg", "gallery27.jpg",
+				"gallery28.jpg", "gallery29.jpg", "gallery30.jpg"
+			];
+
+			// Setup each row
+			galleryRows.forEach((row, index) => {
+				// Store original styles
+				const computedStyle = window.getComputedStyle(row);
+				const originalGap = computedStyle.columnGap || '20px';
+				
+				// Select random images
+				let shuffled = [...allImages].sort(() => 0.5 - Math.random());
+				let selectedImages = shuffled.slice(0, 6);
+				
+				// Create image elements HTML
+				let baseImagesHTML = '';
+				selectedImages.forEach(img => {
+					baseImagesHTML += `<img src="images/${img}" alt="Gallery Image">`;
+				});
+				
+				// Duplicate the images enough times to fill the screen width multiple times
+				row.innerHTML = baseImagesHTML.repeat(10);
+				
+				// Wait for images to load to get accurate measurements
+				setTimeout(() => {
+					const imageElements = row.querySelectorAll('img');
+					
+					// Preserve the original gap between images
+					const gapSize = parseInt(originalGap) || 20;
+					row.style.columnGap = `${gapSize}px`;
+					
+					// Calculate the width of a single set (all unique images + gaps)
+					let singleSetWidth = 0;
+					for (let i = 0; i < selectedImages.length; i++) {
+						singleSetWidth += imageElements[i].offsetWidth;
+						// Add gap after each image except the last one
+						if (i < selectedImages.length - 1) {
+							singleSetWidth += gapSize;
+						}
+					}
+					
+					// Direction alternates by row index
+					const goingRight = index % 2 === 0;
+					
+					// Set initial position
+					let currentPosition = goingRight ? 0 : -singleSetWidth;
+					row.style.transform = `translateX(${currentPosition}px)`;
+					
+					// Speed varies by row (pixels per frame)
+					const speed = goingRight ? 0.9 : -0.9;
+					
+					// Store pause state
+					let isPaused = false;
+					let lastFrameTime = 0;
+					
+					// Animation function for seamless scrolling
+					function animateRow(timestamp) {
+						// Throttle to reasonable frame rate for smoother animation
+						if (timestamp - lastFrameTime < 16) { // ~60fps
+							requestAnimationFrame(animateRow);
+							return;
+						}
+						
+						lastFrameTime = timestamp;
+						
+						if (!isPaused) {
+							// Move the row
+							currentPosition += speed;
+							
+							// Check if we need to reset (invisibly)
+							if (goingRight) { // Moving right
+								// Apply the movement with CSS transform
+								row.style.transform = `translateX(${currentPosition}px)`;
+								
+								if (currentPosition >= 0) {
+									// When position reaches start, jump back one set width with transition disabled
+									row.style.transition = 'none';
+									currentPosition = -singleSetWidth;
+									row.style.transform = `translateX(${currentPosition}px)`;
+									// Force reflow to apply the transform immediately
+									row.offsetHeight;
+									// Re-enable transition
+									row.style.transition = 'transform 20ms linear';
+								}
+							} else { // Moving left
+								// Apply the movement
+								row.style.transform = `translateX(${currentPosition}px)`;
+								
+								if (currentPosition <= -2 * singleSetWidth) {
+									// When position reaches end, jump forward one set width with transition disabled
+									row.style.transition = 'none';
+									currentPosition = -singleSetWidth;
+									row.style.transform = `translateX(${currentPosition}px)`;
+									// Force reflow
+									row.offsetHeight;
+									// Re-enable transition
+									row.style.transition = 'transform 20ms linear';
+								}
+							}
+						}
+						
+						// Continue animation
+						requestAnimationFrame(animateRow);
+					}
+					
+					// Initialize smooth transitions
+					row.style.transition = 'transform 20ms linear';
+					
+					// Start animation
+					requestAnimationFrame(animateRow);
+					
+					// Set up hover effect for individual images
+					imageElements.forEach(img => {
+						img.addEventListener("mouseenter", () => {
+							isPaused = true;
+							// Add hover effect styling if needed
+							img.style.transform = "scale(1.05)";
+							img.style.transition = "transform 0.3s ease";
+							img.style.zIndex = "5";
+						});
+						
+						img.addEventListener("mouseleave", () => {
+							isPaused = false;
+							// Remove hover effect styling
+							img.style.transform = "scale(1)";
+							img.style.zIndex = "1";
+						});
+					});
+					
+					// Also keep the original row hover behavior
+					row.addEventListener("mouseenter", () => {
+						isPaused = true;
+					});
+					
+					row.addEventListener("mouseleave", () => {
+						isPaused = false;
+						// Reset any scale effects when leaving the row
+						imageElements.forEach(img => {
+							img.style.transform = "scale(1)";
+							img.style.zIndex = "1";
+						});
+					});
+				}, 300); // Delay to ensure images have time to load properly
+			});
+		});
+
+		/*document.querySelectorAll(".faq-question").forEach(button => {
+			button.addEventListener("click", () => {
+				const answer = button.nextElementSibling;
+				answer.style.display = answer.style.display === "block" ? "none" : "block";
+			});
+		});*/
+
+		// Initialize AOS properly
+		document.addEventListener("DOMContentLoaded", function () {
+			console.log("AOS is initializing...");
+			AOS.init({
+			once: false,  //Allow animation to trigger everytime
+			duration: 2000,
+			mirror: true, // Ensures animations work when scrolling up
+			anchorPlacement: 'top-bottom'
+			});
+		});
+
+		// Scroll event to force fade-in & fade-out when scrolling
+		window.addEventListener("scroll", () => {
+			document.querySelectorAll("[data-aos]").forEach((el) => {
+				const rect = el.getBoundingClientRect();
+
+				// Fade in when element enters the viewport
+				if (rect.top < window.innerHeight && rect.bottom > 0) {
+					el.classList.add("aos-animate");
+					el.classList.remove("fade-out");
+				}
+				// Fade out when element leaves the viewport
+				else {
+					el.classList.remove("aos-animate");
+					el.classList.add("fade-out");
+				};
+				});
+			});
+
+		<!-- JAVASCRIPT FOR HAMBURGER MENU -->
+		document.getElementById("hamburger").addEventListener("click", function() {
+			document.getElementById("nav-menu").classList.toggle("active");
+		});
+
+
+		const productCategories = [
+		    { name: "Chairs", image: "images/chairs.jpg" },
+		    { name: "Tables", image: "images/tables.jpg" },
+		    { name: "Conference Set", image: "images/conference-set.jpg" },
+		    { name: "Sofa Sets", image: "images/sofa-sets.jpg" },
+		    { name: "Sofa Single", image: "images/sofa-single.jpg" },
+		    { name: "Showcase", image: "images/showcase.jpg" },
+		    { name: "Display", image: "images/display.jpg" },
+		    { name: "Props and Aids", image: "images/props-aids.jpg" },
+		    { name: "Carpet", image: "images/carpet.jpg" },
+		    { name: "Appliances", image: "images/appliances.jpg" },
+		    { name: "TV and Audio Visual", image: "images/tv-audio.jpg" },
+		    { name: "Outlet and Adaptor", image: "images/outlet-adaptor.jpg" },
+		    { name: "Breaker Single Phase", image: "images/breaker-single.jpg" },
+		    { name: "Breaker Three Phase", image: "images/breaker-three.jpg" },
+		    { name: "Transformer", image: "images/transformer.jpg" },
+		    { name: "Light Fittings", image: "images/light-fittings.jpg" }
+		];
+
+		// ✅ Generate flip cards and insert them into the HTML
+		document.addEventListener("DOMContentLoaded", function () {
+		    const productGrid = document.querySelector(".product-grid");
+		    if (productGrid) {
+		        productGrid.innerHTML = productCategories.map((product, index) => `
+		            <div class="product" onclick="openLightbox(${index + 1})">
+		                <div class="product-inner">
+		                    <div class="product-front">
+		                        <img src="${product.image}" alt="${product.name}">
+		                        <h3>${product.name}</h3>
+		                    </div>
+		                    <div class="product-back">
+		                        <p>Click to view details</p>
+		                    </div>
+		                </div>
+		            </div>
+		        `).join('');
+		    }
+		});
+
+
+		// Sublist Data with Product Categories
+		const sublistData = {
+		    1: {
+		        category: "Chairs", //  Category for Product 1
+		        items: [
+		            { name: "Monobloc Chair White & Gray", price: "₱250.00", image: "images/chair1.jpg" },
+		            { name: "Black Stacking Chair Leatherette Cushion", price: "₱500.00", image: "images/chair2.jpg" },
+		            { name: "White Plastic Chair", price: "₱500.00", image: "images/chair3.jpg" },
+		            { name: "Brown Folded Chair with Stainless Footing", price: "₱550.00", image: "images/chair4.jpg" },
+		            { name: "White Special Chair (Nordic chair with Cushion)", price: "₱1,200.00", image: "images/chair5.jpg" },
+		            { name: "Black Special Chair (Chopstick with Cushion)", price: "₱1,250.00", image: "images/chair6.jpg" },
+		            { name: "White Special Chair (Chopstick with Cushion)", price: "₱1,250.00", image: "images/chair7.jpg" },
+		            { name: "Black Special Chair (Chopstick Chair)", price: "₱850.00", image: "images/chair8.jpg" },
+		            { name: "White Special Chair (Chopstick Chair)", price: "₱850.00", image: "images/chair9.jpg" },
+		            { name: "Black Barstool Leatherette", price: "₱600.00", image: "images/chair10.jpg" },
+		            { name: "Black Hydraulic Chairs Low Backrest", price: "₱1,000.00", image: "images/chair11.jpg" },
+		            { name: "White Hydraulic Chairs Low Backrest", price: "₱1,000.00", image: "images/chair12.jpg" },
+		            { name: "Maroon Hydraulic Chairs High Backrest", price: "₱1,000.00", image: "images/chair13.jpg" },
+		            { name: "Red Hydraulic Chairs High Backrest", price: "₱1,000.00", image: "images/chair14.jpg" },
+		            { name: "Orange Hydraulic Chairs Smiley Type", price: "₱1,000.00", image: "images/chair15.jpg" },
+		            { name: "Yellow Hydraulic Chairs Smiley Type", price: "₱1,000.00", image: "images/chair16.jpg" },
+		            { name: "Conference Chairs", price: "₱2,500.00", image: "images/chair17.jpg" }
+		        ]
+		    },
+		    2: {
+		        category: "Tables", //  Category for Product 2
+		        items: [
+		            { name: "Information System Table", price: "₱600.00", image: "images/table1.jpg" },
+		            { name: "Round Glass Conference Table (60 diameter)", price: "₱850.00", image: "images/table2.jpg" },
+		            { name: "Round Glass Conference Table (80 diameter)", price: "₱1,000.00", image: "images/table3.jpg" },
+		            { name: "Round Conference White Table (60 diameter)", price: "₱800.00", image: "images/table4.jpg" },
+		            { name: "Round Conference White Table (80 diameter)", price: "₱900.00", image: "images/table5.jpg" },
+		            { name: "Cocktail Glass Table (60 diameter)", price: "₱1,000.00", image: "image/table6.jpg" },
+		            { name: "Cocktail Glass Table (80 diameter)", price: "₱1,100.00", image: "image/table7.jpg" },
+		            { name: "Hydraulic White Round Table", price: "₱1,300.00", image: "image/table8.jpg" },
+		            { name: "Coffee Table Rectangular 1", price: "₱850.00", image: "image/table9.jpg" },
+		            { name: "Coffee Table Rectangular 2", price: "₱850.00", image: "image/table10.jpg" },
+		            { name: "System Lockable Table (1m x 0.5m x 0.75m)", price: "₱750.00", image: "image/table11.jpg" },
+		            { name: "System Lockable Table (1m x 0.5m x 1m)", price: "₱1,200.00", image: "image/table12.jpg" }
+		        ]
+		    },
+		    3: {
+		        category: "Conference Set", //  Category for Product 3
+		        items: [
+		            { name: "Conference Set 1 (1 Table, 2 Chairs)", price: "₱1,200.00", image: "images/seat1.jpg" },
+		            { name: "Conference Set 2 (1 Table, 2 Chairs)", price: "₱1,300.00", image: "images/seat2.jpg" },
+		            { name: "Conference Set 3 (1 Table, 4 Chairs)", price: "₱1,450.00", image: "images/seat3.jpg" },
+		            { name: "Conference Set 4 (1 Table, 4 Chairs)", price: "₱1,500.00", image: "images/seat4.jpg" },
+		            { name: "Conference Set 5 White (1 Table, 4 Chairs)", price: "₱5,500.00", image: "images/seat5.jpg" },
+		            { name: "Conference Set 6 Black (1 Table, 4 Chairs)", price: "₱5,500.00", image: "images/seat6.jpg" },
+		            { name: "Conference Set 7 (1 Cocktail Table, 2 Barstool Chairs)", price: "₱2,350.00", image: "images/seat7.jpg" }
+		        ]
+		    },
+		    4: {
+		        category: "Sofa Sets", //  Category for Product 4
+		        items: [
+		            { name: "Sofa Set 1 Black Leatherette", price: "₱7,500.00", image: "images/sofaset1.jpg" },
+		            { name: "Sofa Set 2 Black Leatherette", price: "₱7,500.00", image: "images/sofaset2.jpg" },
+		            { name: "Sofa Set 3 Black Leatherette (1x 2-seater, 2x 1-seater, 1 Center Table)", price: "₱6,000.00", image: "images/sofaset3.jpg" },
+		            { name: "Sofa Set 4 Black Leatherette (1x 2-seater, 2x 1-seater, 1 Center Table)", price: "₱6,000.00", image: "images/sofaset4.jpg" }
+		        ]
+		    },  
+		    5: {
+		        category: "Sofa Single", //  Category for Product 5
+		        items: [
+		            { name: "Sofa 3 seater Black Leatherette", price: "₱2,500.00", image: "images/sofasingle1.jpg" },
+		            { name: "Sofa 1 seater Black Leatherette", price: "₱1,500.00", image: "images/sofasingle2.jpg" },
+		            { name: "Sofa 1 seater White Leatherette part of DA-1", price: "₱1,500.00", image: "images/sofasingle4.jpg" },
+					{ name: "Sofa 2 seater Black Leatherette part of DA-3", price: "₱2,000.00", image: "images/sofasingle5.jpg" },
+					{ name: "Sofa 2 seater White Leatherette part of DA-3", price: "₱2,000.00", image: "images/sofasingle6.jpg" },
+					{ name: "Sofa 2 seater Dark Gray Fabric", price: "₱3,000.00", image: "images/sofasingle7.jpg" },
+					{ name: "Ottoman", price: "₱750.00", image: "images/sofasingle8.jpg" }
+		        ]
+		    },
+		    6: {
+		    	category: "Showcase", //  Category for Product 6
+		    	items: [
+		    		{ name: "Showcase Type A ( 1m x .5m x 1m(h))", price: "₱4,100.00", image: "images/showcase1.jpg" },
+					{ name: "Showcase Type B ( 1m x .5m x 1.2m(h))", price: "₱5,800.00", image: "images/showcase2.jpg" },
+					{ name: "Showcase Type C ( 1m x .5m x 1.8m(h))", price: "₱6,500.00", image: "images/showcase3.jpg" }
+		    	]
+		    },
+		    7: {
+		    	category: "Display", //  Category for Product 7
+		    	items: [
+		    		{ name: "Standard Shelves (1m x .30m x 3/4 (thick))", price: "₱300.00", image: "images/display1.jpg" },
+					{ name: "Standard Shelves (2m x .30m x 3/4 (thick))", price: "₱600.00", image: "images/display2.jpg" },
+					{ name: "Wall Mounted Brochure Pocket 1 ( 4 cases )", price: "₱900.00", image: "images/display3.jpg" },
+					{ name: "Wall Mounted Brochure Pocket 1 ( 2 cases )", price: "₱600.00", image: "images/display4.jpg" },
+					{ name: "Wooded Brochure Standee ( 3 pockets )", price: "₱1,100.00", image: "images/display5.jpg" },
+					{ name: "Acrylic Folded Brochure Standee ( 4 pockets )", price: "₱1,550.00", image: "images/display6.jpg" },
+					{ name: "Universal TV Stand", price: "₱2,000.00", image: "images/display7.jpg" },
+					{ name: "Universal TV Bracket", price: "₱1,275.00", image: "images/display8.jpg" },
+					{ name: "System Vertical Photo Panel", price: "₱1,000.00", image: "images/display9.jpg" },
+					{ name: "System Vertical Photo Panel with one Spotlight", price: "₱1,500.00", image: "images/display10.jpg" }
+		    	]
+		    },
+		    8: {
+		    	category: "Prop and Aids", //  Category for Product 8
+		    	items: [
+		    		{ name: "Dry waste Bin 1", price: "₱120.00", image: "images/propandaids1.jpg" },
+					{ name: "S Hook", price: "₱50.00", image: "images/propandaids2.jpg" },
+					{ name: "Tambiolo", price: "₱2,200.00", image: "images/propandaids3.jpg" },
+					{ name: "Dressing Room Mirror", price: "₱1,500.00", image: "images/propandaids4.jpg" },
+					{ name: "Easel Stand", price: "₱1,200.00", image: "images/propandaids5.jpg" },
+					{ name: "Palochina Folded Rack 3 layer", price: "₱2,000.00", image: "images/propandaids6.jpg" },
+					{ name: "Palochina Folded Rack 4 layer", price: "₱2,500.00", image: "images/propandaids7.jpg" },
+					{ name: "X-Banner with Graphics printed on Tarp", price: "₱1,200.00", image: "images/propandaids8.jpg" },
+					{ name: "Pull up Banner with Graphics printed on Tarp", price: "₱2,200.00", image: "images/propandaids9.jpg" }
+		    	]
+		    },
+		    9: {
+		    	category: "Carpet", //  Category for Product 9
+		    	items: [
+		    		{ name: "Needle Punched Carpet ( Standard Color Red, Green, Blue, Light Gray, Dark Gray, Black) /sqm", price: "₱370.00", image: "images/carpet1.jpg" },
+					{ name: "Faux Grass Carpet /sqm", price: "₱400.00", image: "images/carpet2.jpg" },
+					{ name: "Loop Pile Carpet /sqm", price: "₱1,500.00", image: "images/carpet3.jpg" },
+					{ name: "Tile Carpet /tile", price: "₱800.00", image: "images/carpet4.jpg" },
+					{ name: "Needle Punched Carpet ( Special Color )/sqm", price: "₱400.00", image: "images/carpet5.jpg" },
+
+		    	]
+		    },
+		    10: {
+		        category: "Appliances", //  Category for Product 10
+		        items: [
+		            { name: "Water Dispenser with 5 gal of water with 50 cups", price: "₱3,000.00", image: "images/appliances1.jpg" },
+		            { name: "Electric Kettle", price: "₱1,000.00", image: "images/appliances1.jpg" },
+		            { name: "Regrigerator 2", price: "₱7,500.00", image: "images/appliances3.jpg" },
+					{ name: "Chest Type Freezer 1 /day", price: "₱3,500.00", image: "images/appliances4.jpg" },
+					{ name: "Chest Type Freezer 2 /day", price: "₱5,000.00", image: "images/appliances5.jpg" },
+					{ name: "Chest Type Freezer 3 /day", price: "₱6,000.00", image: "images/appliances6.jpg" },
+					{ name: "Microwave Oven", price: "₱3,000.00", image: "images/appliances7.jpg" },
+					{ name: "Coffee Maker 1 gal of water with 50 cups", price: "₱1,500.00", image: "images/appliances8.jpg" },
+					{ name: "Stand Fan", price: "₱1,500.00", image: "images/appliances9.jpg" },
+					{ name: "Electric Kettle", price: "₱1,000.00", image: "images/appliances10.jpg" },
+					{ name: "Projector Sets", price: "₱7,000.00", image: "images/appliances11.jpg" },
+					{ name: "Alcohol Dispenser with 1 gal of Alcohol", price: "₱2,500.00", image: "images/appliances12.jpg" },
+					{ name: "Alcohol Dispenser with Thermometer with 1 gal Alcohol", price: "₱3,500.00", image: "images/appliances13.jpg" },
+					{ name: "Mist Spray with Ultra Violet Light with 1 gal Disinfectant", price: "₱2,500.00", image: "images/appliances14.jpg" }  
+		        ]
+		    },
+		    11: {
+		        category: "TV and Audio Visual", //  Category for Product 11
+		        items: [
+		            { name: "LED 32 inches HDMI Ready with TV Stand/Wall mounted", price: "₱4,400.00", image: "images/tvav1.jpg" },
+		            { name: "LED Wall Other Size", price: "Upon Request", image: "images/tvav8.jpg" },
+		            { name: "LED 50 inches HDMI Ready with TV Stand/Wall mounted", price: "₱6,600.00", image: "images/tvav3.jpg" },
+					{ name: "LED 65 inches HDMI Ready with TV Stand/Wall mounted", price: "₱11,500.00", image: "images/tvav4.jpg" },
+					{ name: "LED 75 inches HDMI Ready with TV Stand/Wall mounted", price: "₱14,500.00", image: "images/tvav5.jpg" },
+					{ name: "LED Wall Standard Size with Basic Sound System", price: "₱25,000.00", image: "images/tvav6.jpg" },
+					{ name: "LED Wall Standard Size", price: "₱20,000.00", image: "images/tvav7.jpg" },
+					{ name: "LED Wall Other Size", price: "Upon Request", image: "images/tvav8.jpg" }  
+		        ]
+		    },
+		    12: {
+		        category: "Outlet and Adaptor", //  Category for Product 12
+		        items: [
+		            { name: "Convenience Outlet (universal)", price: "₱500.00", image: "images/oa3.jpg" },
+		            { name: "Convenience Outlet 2 gang", price: "₱450.00", image: "images/oa2.jpg" },
+					{ name: "Convenience Outlet (universal)",price: "₱500.00", image: "images/oa3.jpg" },
+					{ name: "Universal Adaptor", price: "₱300.00", image: "images/oa4.jpg" }
+		        ]
+		    },
+		    13: {
+		    	category: "Breaker Single Phase", //  Category for Product 13
+		    	items: [
+		    		{ name: "Up to 4.4kw w/20 A switch   1P", price: "₱3,900.00", image: "images/BSP1.jpg" },
+					{ name: "Up to 6.6kw w/ 30 A switch   1P", price: "₱5,600.00", image: "images/BSP2.jpg" },
+					{ name: "Up to 15.4kw w/60 A switch   1P", price: "₱8,400.00", image: "images/BSP3.jpg" },
+					{ name: "Up to 22.0kw w/100 A switch   1P", price:"₱15,500.00", image: "images/BSP4.jpg" }
+		    	]
+		    },
+		    14: {
+		    	category: "Breaker Three Phase", //  Category for Product 14
+		    	items: [
+		    		{ name: "30 Amps V 60 Hz Breaker 3P", price: "₱11,000.00", image: "images/btp1.jpg" },
+					{ name: "60 Amps V 60 Hz Breaker 3P", price: "₱13,200.00", image: "images/btp2.jpg" },
+					{ name: "100 Amps V 60 Hz Breaker 3P", price: "₱31,700.00", image: "images/btp3.jpg" }
+		    	]
+		    }, 
+		    15: {
+		        category: "Transformer", //  Category for Product 15
+		        items: [
+		            { name: "Step-down Transformer (Single Phase)", price: "Upon Request", image: "images/transformer1.jpg" },
+		            { name: "Step-down Transformer ( Three Phase )", price: "Upon Request", image: "images/transformer2.jpg" },
+					{ name: "Step-up Transformer ( Single Phase )", price: "Upon Request", image: "images/transformer3.jpg" },
+					{ name: "Step-up Transformer ( Three Phase )", price: "Upon Request", image: "images/transformer4.jpg" },
+					{ name: "Genset", price: "Upon Request", image: "images/transformer5.jpg" }
+		        ]
+		    }, 
+		    16: {
+		        category: "Light Fittings", //  Category for Product 16
+		        items: [
+		            { name: "Florescent Lamp (40 watts)", price: "₱700.00", image: "images/lf1.jpg" },
+		            { name: "LED Florescent (Day Light)", price: "₱800.00", image: "images/lf2.jpg" },
+		            { name: "LED Pinlight ( 5 watts )", price: "₱700.00", image: "images/lf3.jpg"},
+					{ name: "LED Pinlight ( 15 watts )", price: "₱800.00", image: "images/lf4.jpg" },
+					{ name: "Long Arm Spotlight", price: "₱850.00", image: "images/lf5.jpg" },
+					{ name: "Short Arm Spotlight", price: "₱750.00", image: "images/lf6.jpg" },
+					{ name: "Track Bar with 3 Track Light", price: "₱1,000.00", image: "images/lf7.jpg" },
+					{ name: "Halogen Pinlight", price: "₱800.00", image: "images/lf8.jpg" },
+					{ name: "Floodlight 150 watts", price: "₱1,150.00", image: "images/lf9.jpg" },
+					{ name: "Floodlight 300 watts", price: "₱1,200.00", image: "images/lf10.jpg" },
+					{ name: "Metal Halide 150 watts", price: "₱2,250.00", image: "images/lf11.jpg" },
+					{ name: "Metal Halide 4000 watts", price: "₱4,250.00", image: "images/lf12.jpg" }
+		        ]
+		    }
+		};
+
+
+		let currentProductId = 1; // Default product to start with
+		let currentSublistPage = 0; // Track pagination within each product
+
+		document.addEventListener("DOMContentLoaded", function () {
+		    console.log("DOM Loaded - Initializing Swiper...");
+		    
+		    window.swiper = new Swiper(".swiper-container", {
+		        loop: false,
+		        navigation: {
+		            nextEl: ".swiper-button-next",
+		            prevEl: ".swiper-button-prev",
+		        },
+		        on: {
+		            slideChange: function () {
+		                console.log("Slide changed to index:", swiper.realIndex);
+		                updateProductDetails(swiper.realIndex);
+		            }
+		        }
+		    });
+		});
+
+		// ✅ Open Lightbox and Display the Correct Product
+		function openLightbox(productId) {
+		    console.log(`🔹 Attempting to open lightbox for product ID: ${productId}`);
+		    currentProductId = productId;
+		    currentSublistPage = 0;
+		    const product = sublistData[currentProductId];
+		    if (!product) {
+		        console.error(`❌ ERROR: Product data not found for ID: ${currentProductId}`);
+		        return;
+		    }
+		    console.log("✅ Product Data Found:", product);
+		    
+		    // Get the Swiper Wrapper
+		    const swiperWrapper = document.getElementById("swiperWrapper");
+		    swiperWrapper.innerHTML = ""; // Clear previous slides
+		    
+		    // Create Slides Dynamically - IMPROVED HTML STRUCTURE
+		    product.items.forEach((item) => {
+		        const slide = document.createElement("div");
+		        slide.classList.add("swiper-slide");
+		        slide.innerHTML = `
+		            <img src="${item.image}" alt="${item.name}">
+		        `;
+		        swiperWrapper.appendChild(slide);
+		    });
+		    
+		    // Update Right Column
+		    document.getElementById("lightbox-title").innerText = product.items[0].name;
+		    document.getElementById("lightbox-category").innerText = product.category;
+		    document.getElementById("lightbox-price").innerHTML = `<strong>Price:</strong> <span style="color: red;">${product.items[0].price}</span>`;
+		    
+		    // Show Lightbox and add active class
+		    const lightbox = document.getElementById("lightbox");
+		    if (!lightbox) {
+		        console.error("❌ ERROR: Lightbox element NOT found in DOM!");
+		        return;
+		    }
+		    lightbox.classList.add("active");
+		    lightbox.style.display = "flex";
+		    lightbox.style.opacity = "1";
+		    lightbox.style.visibility = "visible";
+		    
+		    // Ensure Swiper updates correctly
+		    setTimeout(() => {
+		        if (window.swiper) {
+		            window.swiper.update();
+		            window.swiper.slideTo(0);
+		        }
+		    }, 300);
+		}
+		// ✅ Close Lightbox
+		function closeLightbox() {
+		    console.log("Closing lightbox...");
+		    
+		    const lightbox = document.getElementById("lightbox");
+		    if (!lightbox) {
+		        console.error("❌ ERROR: Lightbox element NOT found when trying to close!");
+		        return;
+		    }
+
+		    lightbox.style.display = "none";
+		}
+
+		// ✅ Update Right Column When Swiping
+		function updateProductDetails(index) {
+		    console.log(`🔹 Updating details for index: ${index}`);
+
+		    const product = sublistData[currentProductId];
+
+		    if (!product || !product.items[index]) {
+		        console.error("❌ ERROR: Missing product details for index:", index);
+		        return;
+		    }
+
+		    document.getElementById("lightbox-title").innerText = product.items[index].name;
+		    document.getElementById("lightbox-category").innerText = product.category;
+		    document.getElementById("lightbox-price").innerHTML = `<strong>Price:</strong> <span style="color: red;">${product.items[index].price}</span>`;
+		    //document.getElementById("lightbox-description").innerText = product.items[index].description || "No description available.";
+		}
+
+	</script>
+</body>
+</html>
