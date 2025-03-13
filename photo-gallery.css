@@ -10,12 +10,36 @@ body {
     background-color: #011d02; /* Same as your gallery section */
     color: white;
     overflow-x: hidden;
+    padding-top: 0 !important;
+    margin-top: 0 !important;
 }
 
 .container {
     display: flex;
+    flex-direction: column;
+    min-height: 100vh;/* ✅ Push footer down */
+}
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
 }
+
+.main-content {
+    flex: 1;
+}
+
+footer {
+    margin-top: auto;
+}
+
 
 /* Sidebar Styles */
 .sidebar {
@@ -27,6 +51,8 @@ body {
     left: 0;
     top: 0;
     z-index: 100;
+    transition: width 0.3s ease-in-out;
+    overflow: hidden; /* Prevent content overflow during transition */
 }
 
 .sidebar.collapsed {
@@ -69,6 +95,7 @@ body {
 
 .sidebar-menu li {
     margin-bottom: 10px;
+    white-space: nowrap; /* Prevent text wrapping during transition */
 }
 
 .sidebar-menu li a {
@@ -101,7 +128,10 @@ body {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    justify-content: space-between;
+    padding-bottom: 100px; /* Prevents overlap with footer */
 }
+
 
 .container.sidebar-collapsed .main-content {
     margin-left: 60px;
@@ -133,10 +163,14 @@ header {
 
 /* Gallery Content */
 .gallery-content {
-    flex: 1;
+    flex: 1; /* Expands gallery to push footer down */
     padding: 30px;
     overflow-y: auto;
+    display: flex;
+    flex-direction: column;
 }
+
+
 
 .gallery-wrapper {
     overflow: hidden;
@@ -145,6 +179,7 @@ header {
     display: flex;
     flex-direction: column;
     gap: 30px;
+    margin-bottom: 30px; /* Add space between gallery and footer */
 }
 
 .gallery-row {
@@ -159,7 +194,7 @@ header {
 
 .gallery-row img {
     width: auto;
-    height: 300px;
+    height: 200px;
     object-fit: cover;
     border-radius: 10px;
     cursor: pointer;
@@ -172,145 +207,213 @@ header {
     z-index: 5;
 }
 
-/* Footer Styles */
-footer { 
-    color: white !important;
+/* Footer Styles - UPDATED */
+footer {
+    position: relative; /* ✅ Keeps it in normal flow */
+    width: 100%;
     background-color: #005a05;
     text-align: center;
-    position: relative;
-    overflow: hidden;
-    padding: 10px 0;
-    index: 1000;
+    padding: 40px 0;
+    margin-top: auto; /* ✅ Ensures footer is always at the bottom */
+    z-index: 1;
 }
-.footer-overlay {
-    border: 2px solid black;
-    display: block !important;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /*background: url('images/background-image.png') no-repeat center center;*/
-    background-size: 70%;
-    opacity: 0.5;
-    pointer-events: none;
-    z-index: 0;
+body::after {
+    content: "";
+    display: block;
+    height: 1px; /* Prevents extra spacing issues */
 }
+
+/* Footer Container */
 .footer-container {
-    display: grid;
-    grid-template-columns: 1fr 2fr;
-    align-items: center;
-    width: 100%;
+    display: flex !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    width: 90%;
     margin: 0 auto;
-    padding: 20px 0;
-    gap: 20px;
+    flex-wrap: wrap !important;
 }
+
+
+/* Footer Left - Logo */
 .footer-left {
     display: flex;
     justify-content: center;
     align-items: center;
+    min-width: 250px; /* Ensure logo has space */
 }
-.footer-right {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 15px;
-    text-align: left;
+
+.footer-left img {
+    display: block !important;
+    width: 150px !important;
+    height: auto !important;
 }
-.footer-section {
-    text-align: left;
-    font-size: 12px;
-}
+
+
 .footer-left img {
     width: 200px;
     height: auto;
 }
-.footer-section h3 {
-    margin-bottom: 10px;
-    font-size: 12px;
+
+/* Footer Right - Sections */
+.footer-right {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+    text-align: center;
+    width: 100%;
+    max-width: 70%;
 }
+
+
+/* Footer Sections */
+.footer-section {
+    color: white !important; /* Ensure text is not invisible */
+    text-align: left;
+}
+.footer-section h3 {
+    font-size: 14px;
+    font-weight: bold;
+    color: white !important; /* Force text visibility */
+}
+
 .footer-section ul {
     list-style: none;
     padding: 0;
 }
+
 .footer-section ul li {
     margin: 5px 0;
 }
+
 .footer-section ul li a {
-    color: white;
+    color: white !important;
     text-decoration: none;
-    font-size: 12px;
+    font-size: 14px;
 }
+
+.footer-section ul li a:hover {
+    color: #f0a500;
+    text-decoration: underline;
+}
+.footer-section h3, .footer-section ul li a {
+    color: white !important;
+    font-size: 14px !important;
+}
+
+
+/* Download Buttons */
 .download-buttons {
-    margin: 5px 0;
+    margin: 20px 0;
     text-align: center;
+    width: 100%;
 }
+
 .download-btn {
     background: #f0a500;
     color: white;
-    padding: 8px 12px;
+    padding: 10px 15px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    font-size: 10px;
+    font-size: 14px;
     text-decoration: none;
     display: inline-block;
-    margin: 5px;
+    margin: 5px 10px;
+    transition: background 0.3s ease;
 }
+
 .download-btn:hover {
     background: #d48f00;
 }
+
+/* Social Icons */
 .social-icons {
-    margin: 10px 0;
+    margin: 15px 0;
     text-align: center;
-}
-.social-icons img {
-    width: 20px;
-    margin: 0 5px;
-}
-.footer-bottom {
-    margin-top: 5px;
-    font-size: 10px;
-    text-align: center;
+    width: 100%;
 }
 
+.social-icons a {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.social-icons img {
+    width: 24px;
+    height: 24px;
+    transition: transform 0.3s ease;
+}
+
+.social-icons img:hover {
+    transform: scale(1.2);
+}
+
+/* Footer Bottom */
+.footer-bottom {
+    margin-top: 15px;
+    font-size: 12px;
+    text-align: center;
+    width: 100%;
+    padding-top: 15px;
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.footer-bottom a {
+    color: white;
+    text-decoration: none;
+}
+
+.footer-bottom a:hover {
+    text-decoration: underline;
+}
+
+/* Floating Contact Button */
+.floating-btn {
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    background-color: #044e06;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 30px;
+    text-decoration: none;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    z-index: 100;
+    transition: all 0.3s ease;
+}
+
+.floating-btn:hover {
+    background-color: #033b04;
+    transform: scale(1.05);
+}
+
+/* Responsive Adjustments */
 @media (max-width: 768px) {
     .footer-container {
-        grid-template-columns: 1fr;
+        flex-direction: column;
         text-align: center;
     }
+
+    .footer-left {
+        width: 100%;
+        justify-content: center;
+    }
+
     .footer-right {
-        grid-template-columns: 1fr;
-    }
-    .footer-left img {
-        width: 150px;
-    }
-}
-/* Media Queries for Responsiveness */
-@media (max-width: 768px) {
-    .sidebar {
-        width: 60px;
-    }
-    
-    .sidebar-header h3 {
-        display: none;
-    }
-    
-    .sidebar-menu li a span {
-        display: none;
-    }
-    
-    .main-content {
-        margin-left: 60px;
-    }
-    
-    .footer-section {
-        min-width: 100%;
-        margin-bottom: 30px;
+        grid-template-columns: repeat(2, 1fr);
+        width: 100%;
+        max-width: 100%;
     }
 }
 
 @media (max-width: 480px) {
-    .gallery-row img {
-        height: 200px;
+    .footer-right {
+        grid-template-columns: 1fr;
+    }
+
+    .download-btn {
+        display: block;
+        width: 80%;
+        margin: 10px auto;
     }
 }
