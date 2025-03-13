@@ -19,11 +19,11 @@ body {
     flex-direction: column;
     min-height: 100vh;/* ✅ Push footer down */
 }
+
 html, body {
     height: 100%;
     margin: 0;
     padding: 0;
-    overflow-x: hidden;
 }
 
 .container {
@@ -33,12 +33,16 @@ html, body {
 }
 
 .main-content {
-    flex: 1;
+    flex: 1; /* Pushes the footer down */
 }
 
 footer {
-    margin-top: auto;
+    margin-top: auto; /* Ensures footer stays at the bottom */
+    padding: 20px 0;
+    background-color: #005a05;
+    color: white;
 }
+
 
 
 /* Sidebar Styles */
@@ -123,15 +127,11 @@ footer {
 /* Main Content Area */
 .main-content {
     flex: 1;
-    margin-left: 250px;
-    transition: all 0.3s ease;
     display: flex;
     flex-direction: column;
-    min-height: 100vh;
+    min-height: auto;
     justify-content: space-between;
-    padding-bottom: 100px; /* Prevents overlap with footer */
 }
-
 
 .container.sidebar-collapsed .main-content {
     margin-left: 60px;
@@ -220,7 +220,7 @@ footer {
 body::after {
     content: "";
     display: block;
-    height: 1px; /* Prevents extra spacing issues */
+    height: 0;
 }
 
 /* Footer Container */
@@ -350,7 +350,6 @@ body::after {
 
 /* Footer Bottom */
 .footer-bottom {
-    margin-top: 15px;
     font-size: 12px;
     text-align: center;
     width: 100%;
@@ -416,4 +415,7 @@ body::after {
         width: 80%;
         margin: 10px auto;
     }
+}
+footer::after, footer::before {
+    content: none !important;
 }
