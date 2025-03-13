@@ -1,9 +1,16 @@
-/* Base Styles */
+@font-face{
+    font-family: 'Swiss721BlkCnBT';
+    src: url('fonts/Swiss721BlkCnBT.woff2') format('woff2'),
+         url('fonts/Swiss721BlkCnBT.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+@import url('https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600;700&display=swap');
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: Arial, sans-serif;
+    scroll-behavior: smooth;
 }
 
 body {
@@ -12,6 +19,9 @@ body {
     overflow-x: hidden;
     padding-top: 0 !important;
     margin-top: 0 !important;
+    font-family: Georgia, serif;
+    font-weight: bold;
+    line-height: 1.6;
 }
 
 .container {
@@ -213,7 +223,7 @@ footer {
     width: 100%;
     background-color: #005a05;
     text-align: center;
-    padding: 40px 0;
+    padding: 20px 0;
     margin-top: auto; /* ✅ Ensures footer is always at the bottom */
     z-index: 1;
 }
@@ -244,7 +254,7 @@ body::after {
 
 .footer-left img {
     display: block !important;
-    width: 150px !important;
+    width: 200px !important;
     height: auto !important;
 }
 
@@ -297,29 +307,25 @@ body::after {
 }
 .footer-section h3, .footer-section ul li a {
     color: white !important;
-    font-size: 14px !important;
+    font-size: 12px !important;
 }
-
 
 /* Download Buttons */
 .download-buttons {
-    margin: 20px 0;
+    margin: 5px 0;
     text-align: center;
-    width: 100%;
 }
-
 .download-btn {
     background: #f0a500;
     color: white;
-    padding: 10px 15px;
+    padding: 8px 12px;
     border: none;
     cursor: pointer;
     border-radius: 5px;
-    font-size: 14px;
+    font-size: 10px;
     text-decoration: none;
     display: inline-block;
-    margin: 5px 10px;
-    transition: background 0.3s ease;
+    margin: 5px;
 }
 
 .download-btn:hover {
@@ -350,7 +356,7 @@ body::after {
 
 /* Footer Bottom */
 .footer-bottom {
-    font-size: 12px;
+    font-size: 9px;
     text-align: center;
     width: 100%;
     padding-top: 15px;
@@ -371,19 +377,21 @@ body::after {
     position: fixed;
     bottom: 20px;
     right: 20px;
-    background-color: #044e06;
+    background: #f0a500;
     color: white;
-    padding: 10px 15px;
-    border-radius: 30px;
+    padding: 15px 20px;
+    border-radius: 50px;
     text-decoration: none;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-    z-index: 100;
-    transition: all 0.3s ease;
+    font-size: 16px;
+    font-weight: bold;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    transition: transform 0.3s ease-in-out;
+    z-index: 9999;
 }
 
 .floating-btn:hover {
-    background-color: #033b04;
-    transform: scale(1.05);
+    transform: scale(1.1);
+    background: #d48f00;
 }
 
 /* Responsive Adjustments */
