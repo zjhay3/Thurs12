@@ -5,6 +5,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const sidebarToggle = document.getElementById('sidebarToggle');
     const toggleSidebar = document.getElementById('toggleSidebar');
 
+    // Initialize sidebar as collapsed by default
+    sidebar.classList.add('collapsed');
+    container.classList.add('sidebar-collapsed');
+
+    // Hover functionality for sidebar instead of click
+    sidebar.addEventListener('mouseenter', function() {
+        sidebar.classList.remove('collapsed');
+        container.classList.remove('sidebar-collapsed');
+    });
+
+    sidebar.addEventListener('mouseleave', function() {
+        sidebar.classList.add('collapsed');
+        container.classList.add('sidebar-collapsed');
+    });
+
+    // Keep the click toggle functionality as a backup
     function toggleSidebarState() {
         sidebar.classList.toggle('collapsed');
         container.classList.toggle('sidebar-collapsed');
@@ -23,17 +39,11 @@ document.addEventListener("DOMContentLoaded", function () {
             });
             this.parentElement.classList.add('active');
             
-            // Filter gallery based on category (to be implemented)
+            // Filter gallery based on category
             const category = this.getAttribute('href').substring(1);
             filterGallery(category);
         });
     });
-
-    // Filter gallery function (placeholder)
-    function filterGallery(category) {
-        console.log('Filtering gallery by:', category);
-        // Implementation for filtering would go here
-    }
 
     // List of available images
     const allImages = [
@@ -57,152 +67,178 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Setup the gallery rows
     const galleryRows = document.querySelectorAll(".gallery-row");
+    
+    // Initialize gallery with random images
+    setupGallery('all');
 
-    // Setup each row
-    galleryRows.forEach((row, index) => {
-        // Store original styles
-        const computedStyle = window.getComputedStyle(row);
-        const originalGap = computedStyle.columnGap || '50px';
-        
-        // Select random images
-        let shuffled = [...allImages].sort(() => 0.5 - Math.random());
-        let selectedImages = shuffled.slice(0, 6);
-        
-        // Create image elements HTML
-        let baseImagesHTML = '';
-        selectedImages.forEach(img => {
-            baseImagesHTML += `<img src="images/${img}" alt="Gallery Image" data-fullsize="images/${img}">`;
-        });
-        
-        // Duplicate the images enough times to fill the screen width multiple times
-        row.innerHTML = baseImagesHTML.repeat(10);
-        
-        // Wait for images to load to get accurate measurements
-        setTimeout(() => {
-            const imageElements = row.querySelectorAll('img');
+    // Function to set up gallery with proper animation
+    function setupGallery(category) {
+        const imagesToUse = category === 'all' 
+            ? [...allImages].sort(() => 0.5 - Math.random()) 
+            : imageCategories[category] || [];
             
-            // Preserve the original gap between images
-            const gapSize = parseInt(originalGap) || 50;
-            row.style.columnGap = `${gapSize}px`;
+        if (imagesToUse.length === 0) return;
             
-            // Calculate the width of a single set (all unique images + gaps)
-            let singleSetWidth = 0;
-            for (let i = 0; i < selectedImages.length; i++) {
-                singleSetWidth += imageElements[i].offsetWidth;
-                // Add gap after each image except the last one
-                if (i < selectedImages.length - 1) {
-                    singleSetWidth += gapSize;
+        // Setup each row
+        galleryRows.forEach((row, index) => {
+            // Clear existing content and animations
+            row.innerHTML = '';
+            row.style.transform = '';
+            
+            // Store original styles
+            const originalGap = '50px';
+            const gapSize = 50;
+            
+            // Select images for this row (either random or category-based)
+            let selectedImages;
+            if (category === 'all') {
+                // For random, shuffle and take 6 images
+                let shuffled = [...allImages].sort(() => 0.5 - Math.random());
+                selectedImages = shuffled.slice(0, 6);
+            } else {
+                // For categories, distribute images evenly among rows
+                selectedImages = imagesToUse.filter((_, i) => i % galleryRows.length === index);
+                // If not enough images, add some padding
+                if (selectedImages.length < 3) {
+                    selectedImages = [...selectedImages, ...selectedImages];
                 }
             }
             
-            // Direction alternates by row index
-            const goingRight = index % 2 === 0;
+            // Create image elements HTML
+            let baseImagesHTML = '';
+            selectedImages.forEach(img => {
+                baseImagesHTML += `<img src="images/${img}" alt="Gallery Image" data-fullsize="images/${img}">`;
+            });
             
-            // Set initial position
-            let currentPosition = goingRight ? 0 : -singleSetWidth;
-            row.style.transform = `translateX(${currentPosition}px)`;
+            // Duplicate the images enough times to fill the screen width multiple times
+            row.innerHTML = baseImagesHTML.repeat(10);
             
-            // Speed varies by row (pixels per frame)
-            const speed = goingRight ? 0.9 : -0.9;
-            
-            // Store pause state
-            let isPaused = false;
-            let lastFrameTime = 0;
-            
-            // Animation function for seamless scrolling
-            function animateRow(timestamp) {
-                // Throttle to reasonable frame rate for smoother animation
-                if (timestamp - lastFrameTime < 16) { // ~60fps
-                    requestAnimationFrame(animateRow);
-                    return;
-                }
+            // Wait for images to load to get accurate measurements
+            setTimeout(() => {
+                const imageElements = row.querySelectorAll('img');
                 
-                lastFrameTime = timestamp;
+                // Preserve the original gap between images
+                row.style.columnGap = `${gapSize}px`;
                 
-                if (!isPaused) {
-                    // Move the row
-                    currentPosition += speed;
-                    
-                    // Check if we need to reset (invisibly)
-                    if (goingRight) { // Moving right
-                        // Apply the movement with CSS transform
-                        row.style.transform = `translateX(${currentPosition}px)`;
-                        
-                        if (currentPosition >= 0) {
-                            // When position reaches start, jump back one set width with transition disabled
-                            row.style.transition = 'none';
-                            currentPosition = -singleSetWidth;
-                            row.style.transform = `translateX(${currentPosition}px)`;
-                            // Force reflow to apply the transform immediately
-                            row.offsetHeight;
-                            // Re-enable transition
-                            row.style.transition = 'transform 20ms linear';
-                        }
-                    } else { // Moving left
-                        // Apply the movement
-                        row.style.transform = `translateX(${currentPosition}px)`;
-                        
-                        if (currentPosition <= -2 * singleSetWidth) {
-                            // When position reaches end, jump forward one set width with transition disabled
-                            row.style.transition = 'none';
-                            currentPosition = -singleSetWidth;
-                            row.style.transform = `translateX(${currentPosition}px)`;
-                            // Force reflow
-                            row.offsetHeight;
-                            // Re-enable transition
-                            row.style.transition = 'transform 20ms linear';
-                        }
+                // Calculate the width of a single set (all unique images + gaps)
+                let singleSetWidth = 0;
+                for (let i = 0; i < selectedImages.length; i++) {
+                    singleSetWidth += imageElements[i].offsetWidth;
+                    // Add gap after each image except the last one
+                    if (i < selectedImages.length - 1) {
+                        singleSetWidth += gapSize;
                     }
                 }
                 
-                // Continue animation
+                // Direction alternates by row index
+                const goingRight = index % 2 === 0;
+                
+                // Set initial position
+                let currentPosition = goingRight ? 0 : -singleSetWidth;
+                row.style.transform = `translateX(${currentPosition}px)`;
+                
+                // Speed varies by row (pixels per frame)
+                const speed = goingRight ? 0.9 : -0.9;
+                
+                // Store pause state
+                let isPaused = false;
+                let lastFrameTime = 0;
+                
+                // Animation function for seamless scrolling
+                function animateRow(timestamp) {
+                    // Throttle to reasonable frame rate for smoother animation
+                    if (timestamp - lastFrameTime < 16) { // ~60fps
+                        requestAnimationFrame(animateRow);
+                        return;
+                    }
+                    
+                    lastFrameTime = timestamp;
+                    
+                    if (!isPaused) {
+                        // Move the row
+                        currentPosition += speed;
+                        
+                        // Check if we need to reset (invisibly)
+                        if (goingRight) { // Moving right
+                            // Apply the movement with CSS transform
+                            row.style.transform = `translateX(${currentPosition}px)`;
+                            
+                            if (currentPosition >= 0) {
+                                // When position reaches start, jump back one set width with transition disabled
+                                row.style.transition = 'none';
+                                currentPosition = -singleSetWidth;
+                                row.style.transform = `translateX(${currentPosition}px)`;
+                                // Force reflow to apply the transform immediately
+                                row.offsetHeight;
+                                // Re-enable transition
+                                row.style.transition = 'transform 20ms linear';
+                            }
+                        } else { // Moving left
+                            // Apply the movement
+                            row.style.transform = `translateX(${currentPosition}px)`;
+                            
+                            if (currentPosition <= -2 * singleSetWidth) {
+                                // When position reaches end, jump forward one set width with transition disabled
+                                row.style.transition = 'none';
+                                currentPosition = -singleSetWidth;
+                                row.style.transform = `translateX(${currentPosition}px)`;
+                                // Force reflow
+                                row.offsetHeight;
+                                // Re-enable transition
+                                row.style.transition = 'transform 20ms linear';
+                            }
+                        }
+                    }
+                    
+                    // Continue animation
+                    requestAnimationFrame(animateRow);
+                }
+                
+                // Initialize smooth transitions
+                row.style.transition = 'transform 20ms linear';
+                
+                // Start animation
                 requestAnimationFrame(animateRow);
-            }
-            
-            // Initialize smooth transitions
-            row.style.transition = 'transform 20ms linear';
-            
-            // Start animation
-            requestAnimationFrame(animateRow);
-            
-            // Set up hover effect for individual images
-            imageElements.forEach(img => {
-                img.addEventListener("mouseenter", () => {
-                    isPaused = true;
-                    // Add hover effect styling if needed
-                    img.style.transform = "scale(1.05)";
-                    img.style.transition = "transform 0.3s ease";
-                    img.style.zIndex = "5";
-                });
                 
-                img.addEventListener("mouseleave", () => {
-                    isPaused = false;
-                    // Remove hover effect styling
-                    img.style.transform = "scale(1)";
-                    img.style.zIndex = "1";
-                });
-                
-                // Add click event for viewing full-size image
-                img.addEventListener("click", () => {
-                    openLightbox(img.getAttribute('data-fullsize'));
-                });
-            });
-            
-            // Also keep the original row hover behavior
-            row.addEventListener("mouseenter", () => {
-                isPaused = true;
-            });
-            
-            row.addEventListener("mouseleave", () => {
-                isPaused = false;
-                // Reset any scale effects when leaving the row
+                // Set up hover effect for individual images
                 imageElements.forEach(img => {
-                    img.style.transform = "scale(1)";
-                    img.style.zIndex = "1";
+                    img.addEventListener("mouseenter", () => {
+                        isPaused = true;
+                        // Add hover effect styling if needed
+                        img.style.transform = "scale(1.05)";
+                        img.style.transition = "transform 0.3s ease";
+                        img.style.zIndex = "5";
+                    });
+                    
+                    img.addEventListener("mouseleave", () => {
+                        isPaused = false;
+                        // Remove hover effect styling
+                        img.style.transform = "scale(1)";
+                        img.style.zIndex = "1";
+                    });
+                    
+                    // Add click event for viewing full-size image
+                    img.addEventListener("click", () => {
+                        openLightbox(img.getAttribute('data-fullsize'));
+                    });
                 });
-            });
-        }, 300); // Delay to ensure images have time to load properly
-    });
+                
+                // Also keep the original row hover behavior
+                row.addEventListener("mouseenter", () => {
+                    isPaused = true;
+                });
+                
+                row.addEventListener("mouseleave", () => {
+                    isPaused = false;
+                    // Reset any scale effects when leaving the row
+                    imageElements.forEach(img => {
+                        img.style.transform = "scale(1)";
+                        img.style.zIndex = "1";
+                    });
+                });
+            }, 300); // Delay to ensure images have time to load properly
+        });
+    }
 
     // Lightbox functionality
     function openLightbox(imageSrc) {
@@ -280,62 +316,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Function to update gallery based on selected category
     function filterGallery(category) {
-        // If 'all' is selected, show random images
-        if (category === 'all') {
-            setupRandomGallery();
-            return;
-        }
-        
-        // Otherwise filter by category
-        const filteredImages = imageCategories[category] || [];
-        
-        if (filteredImages.length > 0) {
-            galleryRows.forEach((row, index) => {
-                // Clear existing content
-                row.innerHTML = '';
-                
-                // Create filtered images HTML
-                let imagesHTML = '';
-                
-                // Use modulo to distribute images evenly among rows
-                const rowImages = filteredImages.filter((_, i) => i % galleryRows.length === index);
-                
-                rowImages.forEach(img => {
-                    imagesHTML += `<img src="images/${img}" alt="Gallery Image" data-fullsize="images/${img}">`;
-                });
-                
-                // Duplicate images to fill the row
-                row.innerHTML = imagesHTML.repeat(Math.ceil(10 / rowImages.length));
-                
-                // Reset animation and hover effects (simplified - you'd need to reinitialize properly)
-                const imageElements = row.querySelectorAll('img');
-                imageElements.forEach(img => {
-                    img.addEventListener("click", () => {
-                        openLightbox(img.getAttribute('data-fullsize'));
-                    });
-                });
-            });
-        }
-    }
-
-    // Setup random gallery initially
-    function setupRandomGallery() {
-        galleryRows.forEach((row, index) => {
-            // Clear existing content
-            row.innerHTML = '';
-            
-            // Select random images
-            let shuffled = [...allImages].sort(() => 0.5 - Math.random());
-            let selectedImages = shuffled.slice(0, 6);
-            
-            // Create image elements HTML
-            let baseImagesHTML = '';
-            selectedImages.forEach(img => {
-                baseImagesHTML += `<img src="images/${img}" alt="Gallery Image" data-fullsize="images/${img}">`;
-            });
-            
-            // Duplicate the images enough times to fill the screen width multiple times
-            row.innerHTML = baseImagesHTML.repeat(10);
-        });
+        setupGallery(category);
     }
 });
